@@ -251,7 +251,7 @@ if ($_GET['g'] == '3') {
             <label for="remise">taux de remise</label>
             <input type="number" name="remise" id="remise">%<br>
             <textarea name="description" id="" cols="30" rows="10"></textarea> <br> <br>
-            <center><input type="submit" value="ajouter"></center>
+            <center><input type="submit" value="ajouter" class="button"></center>
         </div>
     </form>
 </div>
@@ -272,7 +272,7 @@ if ($_GET['g'] == '3') {
                 <input type="text" name="adresse" id="adresse"> <br>
                 <label for="rib">rib</label><br>
                 <input type="text" name="rib" id="rib"> <br> <br>
-                <input type="submit" value="ajouter"></center>
+                <input type="submit" value="ajouter" class="button"></center>
         </div>
     </form>
 </div>
@@ -292,7 +292,7 @@ if ($_GET['g'] == '3') {
                 <input type="text" name="ville" id="ville"> <br>
                 <label for="email">email</label><br>
                 <input type="email" name="email" id="email"> <br> <br>
-                <input type="submit" value="ajouter"></center>
+                <input type="submit" value="ajouter" class="button"></center>
         </div>
     </form>
 </div>
@@ -312,7 +312,7 @@ if ($_GET['g'] == '3') {
             <h1>Veuillez ecrire la marque </h1>
             <label for="nom"> nom : </label>
             <input type="text" name="nom" id="nom"> <br>
-            <input type="submit" name="" id="" value="ajouter">
+            <input type="submit" name="" id="" value="ajouter" class="button">
         </div>
     </form>
 </div>
@@ -322,7 +322,7 @@ if ($_GET['g'] == '3') {
             <span onclick="document.getElementById('id012').style.display='none'" class="close" title="Close Modal">&times;</span>
             <label for="nom"> nom : </label>
             <input type="text" name="nom" id="nom">
-            <input type="submit" name="" id="" value="ajouter">
+            <input type="submit" name="" id="" value="ajouter" class="button">
         </div>
     </form>
 </div>
@@ -332,7 +332,7 @@ if ($_GET['g'] == '3') {
             <span onclick="document.getElementById('id013').style.display='none'" class="close" title="Close Modal">&times;</span>
             <label for="nom"> nom : </label>
             <input type="text" name="nom" id="nom">
-            <input type="submit" name="" id="" value="ajouter">
+            <input type="submit" name="" id="" value="ajouter" class="button">
         </div>
     </form>
 </div>

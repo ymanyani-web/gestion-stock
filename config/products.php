@@ -26,8 +26,14 @@ if (isset($_POST['ref'])) {
     $fournisseurId = isset($_POST['fournisseurId']) ? $_POST['fournisseurId'] : "";
     $pu_fournisseur = isset($_POST['pu_f']) ? $_POST['pu_f'] : "";
 
-
+    $description = "\n" . $description . "compatible a: ";
+    $marque1 = $marque_vehiculeId[0];
     foreach ($marque_vehiculeId as $marque) {
+        $liist1 = $bdd->query("SELECT * FROM marque_vehicule WHERE id = $marque");
+        $ll1 = $liist1->fetch();
+        $l1 = $ll1['nom'];
+        $description = $description . "-$l1";
+    }
 
         $req = $bdd->prepare('INSERT INTO products(`ref`, `designation`, `categorie_pieceId`, `marque_pieceId`, `marque_vehiculeId`, `image`, `casier`, `fournisseurId`, `pu_fournisseur`, `pu`, `taux_remise`, `description`) VALUES(:r, :ds, :ci, :mpi, :mvi, :i, :c, :fi, :pf, :p, :tr, :d)');
         $req->execute(array(
@@ -35,7 +41,7 @@ if (isset($_POST['ref'])) {
             'ds' => $designation,
             'ci' => $categorie_pieceId,
             'mpi' => $marque_pieceId,
-            'mvi' => $marque,
+            'mvi' => $marque1,
             'i' => $path,
             'c' => $casier,
             'fi' => $fournisseurId,
@@ -44,7 +50,6 @@ if (isset($_POST['ref'])) {
             'tr' => $remise,
             'd' => $description
         ));
-    }
 }
 header('Location: ../views/products.php?g=1');
 ?>

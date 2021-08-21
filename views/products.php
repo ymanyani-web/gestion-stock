@@ -40,12 +40,6 @@ $reponse4 = $bdd->query("SELECT * FROM fournisseur");
             display: inline-block;
             font-size: 16px;
         }
-
-        #add_new {
-            position: fixed;
-            right: 10px;
-
-        }
     </style>
     <meta charset="utf-8">
     <title>@@@@</title>
@@ -69,10 +63,18 @@ $reponse4 = $bdd->query("SELECT * FROM fournisseur");
 
     <!-- Template Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+    <script>
+        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+            console.info("This page is reloaded");
+            window.location.replace("products.php");
+        } else {
+            console.info("This page is not reloaded");
+        }
+    </script>
 </head>
 
 <?php
-if ($_GET['g'] == '1') {
+if (!empty($_GET['g'])) {
     echo "<body onload='document.getElementById(\"idg1\").style.display=\"block\"' style='width:auto;'>";
 } else
     echo "<body>";
@@ -125,7 +127,7 @@ if ($_GET['g'] == '1') {
 <div class="booking">
     <div class="booking-form">
         <center>
-            <form action="" method="post">
+            <form action="products.php" method="post">
                 filtrer par: <br>
                 <label for="ref">reference</label>
                 <input type="text" name="ref" id="ref">
@@ -161,107 +163,16 @@ if ($_GET['g'] == '1') {
                     endforeach;
                     ?>
                 </select>
-                <span style=""><input type="submit" value="chercher"></span>
+                <span style=""><input type="submit" value="chercher" class="button"></span>
             </form>
         </center>
         <div id="add_new">
-            <button class="button" onclick="document.getElementById('id01').style.display='block'"> Ajouter un nouveau produit</button>
+            <center><button class="button" onclick="document.getElementById('id01').style.display='block'"> Ajouter un nouveau produit</button></center>
         </div>
     </div>
-    <!-- <div class="">
-            <div class="">
-
-                <div class="">
-                    <div class="booking-form">
-                        <form>
-                            <div class="control-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Name" required="required" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text"><i class="far fa-user"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="input-group">
-                                    <input type="email" class="form-control" placeholder="Email" required="required" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text"><i class="far fa-envelope"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Mobile" required="required" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text"><i class="fa fa-mobile-alt"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="input-group date" id="date" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" placeholder="Date" data-target="#date" data-toggle="datetimepicker" />
-                                    <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="input-group time" id="time" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" placeholder="Time" data-target="#time" data-toggle="datetimepicker" />
-                                    <div class="input-group-append" data-target="#time" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="far fa-clock"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="input-group">
-                                    <select class="custom-select form-control">
-                                        <option selected>Guest</option>
-                                        <option value="1">1 Guest</option>
-                                        <option value="2">2 Guest</option>
-                                        <option value="3">3 Guest</option>
-                                        <option value="4">4 Guest</option>
-                                        <option value="5">5 Guest</option>
-                                        <option value="6">6 Guest</option>
-                                        <option value="7">7 Guest</option>
-                                        <option value="8">8 Guest</option>
-                                        <option value="9">9 Guest</option>
-                                        <option value="10">10 Guest</option>
-                                    </select>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text"><i class="fa fa-chevron-down"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn custom-btn" type="submit">Book Now</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 </div>
 <!-- Booking End -->
 
-<script>
-    /*  jQuery(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                window.location = $(this).data("href");
-            });
-        }); */
-</script>
-<style>
-    /*  tr:hover {
-            background: red;
-        }
-
-        .taaaable {
-            width: 80%;
-            margin: auto;
-        } */
-</style>
 
 
 <div style="margin: auto; margin-bottom: 50px;">
@@ -426,7 +337,14 @@ if ($_GET['g'] == '1') {
         <div class="imgcontainer">
             <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
             <img src="../img/error.png" alt="Avatar" class="avatar">
-            <h3>le produit a ete ajoute avec succes</h3>
+            <?php
+            if ($_GET['g'] == 1)
+                echo "<h3>le produit a ete ajoute avec succes</h3>";
+            elseif ($_GET['g'] == 2)
+                echo "<h3>le produit a ete modifie avec succes</h3>";
+            elseif ($_GET['g'] == 3)
+                echo "<h3>le produit a ete suprime avec succes</h3>";
+            ?>
         </div>
     </form>
 </div>

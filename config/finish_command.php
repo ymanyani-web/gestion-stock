@@ -25,11 +25,13 @@ $req1->execute();
 $nf = $req1->fetch();
 $num_facture = $nf[0] + 1;
 $_SESSION['facture'] = $num_facture;
+$total = 0;
 
 foreach ($products as $product) :
     $idd = $product['id'];
     $q = $products_in_cart[$product['id']][0];
     $m = ($product['pu'] * $products_in_cart[$product['id']][0]) - ($product['pu'] * $products_in_cart[$product['id']][0] * $products_in_cart[$product['id']][1] * 0.01);
+    $total += $m;
     $client = $_POST['client'] ? $_POST['client'] : '-';
     $seller = $_POST['user'] ? $_POST['user'] : '-';
     echo $m;
@@ -50,6 +52,19 @@ foreach ($products as $product) :
     ));
 ?>
 <?php endforeach; 
+$mm = $_POST['montant'];
+$req4 = $pdo->prepare('INSERT INTO operation_tt(id_facture, id_client, total) VALUES(:iff, :ic, :t)');
+$req4->execute(array(
+    'iff' => $num_facture,
+    'ic' => $client,
+    't' => $total,
+));
+$req5 = $pdo->prepare('INSERT INTO reglements(id_facture, id_client, montant_d) VALUES(:iff, :ic, :m)');
+$req5->execute(array(
+    'iff' => $num_facture,
+    'ic' => $client,
+    'm' => $mm,
+));
 session_destroy();
 header('Location: ../index.php?fn='.$num_facture.'');
 

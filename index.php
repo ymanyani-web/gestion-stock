@@ -14,7 +14,7 @@ if (isset($_GET['fn'])) {
     echo '<script>window.open("views/facture.php?n=' . $num_facture . '", "_blank");</script>';
 }
 
-
+$list1 = $bdd->query("SELECT * FROM client");
 
 ?>
 <script>
@@ -118,14 +118,23 @@ if (isset($_GET['fn'])) {
                 <a onclick="window.location.replace('views/stock.php')" href="views/stock.php">
                     <div class="col-md-4" onclick="window.location.replace('views/stock.php')">
                         <div class="food-item">
-                            <i class="fas fa-list"></i>
+                            <i class="fas fa-truck-loading"></i>
                             <h3>Entree de stock</h3>
                             <a href="views/stock.php"></a>
                         </div>
                     </div>
                 </a>
+                <a onclick="document.getElementById('id02').style.display='block'">
+                    <div class="col-md-4" onclick="document.getElementById('id02').style.display='block'">
+                        <div class="food-item">
+                            <i class="fas fa-money-check-alt"></i>
+                            <h5>Regler une facture</h5>
+                            <a href=""></a>
+                        </div>
+                    </div>
+                </a>
                 <a onclick="document.getElementById('id01').style.display='block'">
-                    <div class="col-md-4" onclick="document.getElementById('id011').style.display='block'">
+                    <div class="col-md-4" onclick="document.getElementById('id01').style.display='block'">
                         <div class="food-item">
                             <i class="fas fa-file-invoice"></i>
                             <h5>Generateur de facture</h5>
@@ -158,8 +167,26 @@ if (isset($_GET['fn'])) {
                 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                 <center>
                     <label for="nom">numero de facture</label> <br>
-                    <input type="number" name="n" id="n" required> <br>
-                    <input type="submit" value="envoyer">
+                    <input type="number" name="n" id="n" required> <br> <br>
+                    <input type="submit" value="envoyer" class="button">
+                </center>
+            </div>
+        </form>
+    </div>
+    <div id="id02" class="modal">
+        <form class="modal-content animate" action="views/regler_facture.php" method="post">
+            <div class="container">
+                <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <center>
+                    <select name="idcl" id="" class="butto">
+                        <?php foreach ($list1 as $l1) {
+                            $cl_id = $l1['id'];
+                            $cl_nm = $l1['nom'];
+                            echo "<option value='$cl_id'> $cl_nm";
+                        }
+                        ?>
+                    </select>
+                    <input type="submit" value="envoyer" class="button">
                 </center>
             </div>
         </form>

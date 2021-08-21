@@ -228,6 +228,7 @@ if ($products_in_cart) {
                         </select>
                     </div>
                 </div>
+                Montant : <input type="number" name="montant" placeholder="le montant donne">
                 <input class="cart" id="<?php echo $r['id'] ?>" type="submit" value="terminer">
             </div>
         </form>

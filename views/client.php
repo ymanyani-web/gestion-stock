@@ -121,11 +121,11 @@ if ($_GET['g'] == '1') {
                 <input type="text" name="nom" id="nom">
                 <label for="designation">C.I.N</label>
                 <input type="text" name="cin" id="cin">
-                <span style=""><input type="submit" value="chercher"></span>
+                <span style=""><input type="submit" value="chercher" class="button"></span>
             </form>
         </center>
         <div id="add_new">
-            <button class="button"onclick="document.getElementById('id02').style.display='block'"> jouter un nouveau client</button>
+            <button class="button"onclick="document.getElementById('id02').style.display='block'"> Ajouter un nouveau client</button>
         </div>
     </div>
 
@@ -207,7 +207,7 @@ if ($_GET['g'] == '1') {
                 <input type="text" name="adresse" id="adresse"> <br>
                 <label for="rib">rib</label><br>
                 <input type="text" name="rib" id="rib"> <br> <br>
-                <input type="submit" value="ajouter"></center>
+                <input type="submit" value="ajouter" class="button"></center>
         </div>
     </form>
 </div>
@@ -241,8 +241,3 @@ if ($_GET['g'] == '1') {
 </body>
 
 </html>
-
-
-
-
-////// modification des produits

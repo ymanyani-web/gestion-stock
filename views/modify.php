@@ -8,13 +8,11 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $reponse1 = $bdd->query("SELECT * FROM  products WHERE `id` = $id");
 }
-if(isset($_POST['id']))
-    $id= $_POST['id'];
 $list1 = $bdd->query("SELECT * FROM categorie_piece");
 $list2 = $bdd->query("SELECT * FROM marque_piece");
 $list3 = $bdd->query("SELECT * FROM fournisseur");
 $list4 = $bdd->query("SELECT * FROM marque_vehicule");
-if(isset($_POST['update'])){
+if (isset($_POST['update'])) {
     $ref = isset($_POST['ref']) ? $_POST['ref'] : "";
     $designation = isset($_POST['des']) ? $_POST['des'] : "";
     $categorie_pieceId = isset($_POST['categorie_pieceId']) ? $_POST['categorie_pieceId'] : "";
@@ -23,11 +21,10 @@ if(isset($_POST['update'])){
     $casier = isset($_POST['casier']) ? $_POST['casier'] : "";
     $pu = isset($_POST['pu']) ? $_POST['pu'] : "";
     $remise = isset($_POST['tr']) ? $_POST['tr'] : "";
-    $fournisseurId = isset($_POST['fournisseurId']) ? $_POST['fournisseurId'] : "";
+    $fournisseurId = isset($_POST['fournisseur']) ? $_POST['fournisseur'] : "";
 
-    $req = $bdd->prepare('UPDATE products SET reference=:r, designation=:d, categorie_pieceId=:ci, marque_pieceId=mi, marque_vehiculeId=:mv, casier=:ca, pu=:pu, taux_remise=:tr, fournisseurId=:f WHERE id=:i ');
+    $req = $bdd->prepare('UPDATE products SET ref=:r, designation=:d, categorie_pieceId=:ci, marque_pieceId=:mi, marque_vehiculeId=:mv, casier=:ca, pu=:pu, taux_remise=:tr, fournisseurId=:f WHERE id=:i ');
     $req->execute(array(
-        'i' => $id,
         'r' => $ref,
         'd' => $designation,
         'ci' => $categorie_pieceId,
@@ -37,11 +34,16 @@ if(isset($_POST['update'])){
         'pu' => $pu,
         'tr' => $remise,
         'f' => $fournisseurId,
+        'i' => $id
     ));
-    header('Location: products.php?msg=1');
+    header('Location: products.php?g=2');
 }
-if(isset($_POST['delete'])){
-    header('Location: products.php?msg=2');
+if (isset($_POST['delete'])) {
+    $req1 = $bdd->prepare('DELETE FROM products WHERE id=:i ');
+    $req1->execute(array(
+        'i' => $id
+    ));
+    header('Location: products.php?g=3');
 }
 ?>
 
@@ -49,25 +51,6 @@ if(isset($_POST['delete'])){
 <html lang="fr">
 
 <head>
-    <!--     <style>
-        .button {
-            background-color: #719a0a;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-        }
-
-        #add_new {
-            position: fixed;
-            right: 10px;
-
-        }
-    </style> -->
     <meta charset="utf-8">
     <title>@@@@</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -105,14 +88,6 @@ if(isset($_POST['delete'])){
                 <div class="navbar-nav ml-auto">
                     <a href="../index.php" class="nav-item nav-link active">Home</a>
                     <a href="../admin.php" class="nav-item nav-link">Admin</a>
-                    <!--                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="single.html" class="dropdown-item">Blog Detail</a>
-                        </div>
-                    </div>
--->
                 </div>
             </div>
         </div>
@@ -143,122 +118,122 @@ if(isset($_POST['delete'])){
 
 
 
+    <form action="#" method="post">
+        <div style="margin: auto; margin-top: 50px;">
+            <center>
+                <div>
+                    <?php if (isset($_GET['id'])) { ?>
+                        <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+                        <table class="taaaable table-bordered" id="table_abc">
+                            <thead>
+                                <th>reference</th>
+                                <th>designation</th>
+                                <th>categorie piece</th>
+                                <th>marque piece</th>
+                                <th>marque vehicule</th>
+                                <th>casier</th>
+                                <th>fournisseur</th>
+                                <th>prix unitaire</th>
+                                <th>Taux de remise</th>
+                                <!-- <th>quantite</th> -->
+                            </thead>
+                            <?php
+                            foreach ($reponse1 as $r) :
+                                $fournisseur = $r['fournisseurId'];
+                                $category = $r['categorie_pieceId'];
+                                $marque_piece = $r['marque_pieceId'];
+                                $marque_vehicule = $r['marque_vehiculeId'];
+                                $dlist1 = $bdd->query("SELECT * FROM fournisseur WHERE id=$fournisseur");
+                                $dlist2 = $bdd->query("SELECT * FROM categorie_piece WHERE id=$category");
+                                $dlist3 = $bdd->query("SELECT * FROM marque_piece WHERE id=$marque_piece");
+                                $dlist4 = $bdd->query("SELECT * FROM marque_vehicule WHERE id=$marque_vehicule");
+                            ?>
+                                <tr <?php if ($r['quantite'] >= 1) echo "class='clickable-row-g'";
+                                    else  echo "class='clickable-row-r'"; ?> data-href='product-details.php?id=<?php echo $r['id'] ?>'>
+                                    <td> <input type="text" value="<?php echo $r['ref'] ?>" name="ref"> </td>
+                                    <td><input type="text" value="<?php echo $r['designation'] ?>" name="des"> </td>
+                                    <td>
+                                        <select name="categorie_pieceId">
+                                            <?php
+                                            foreach ($list1 as $l1) {
+                                                if ($l1['id'] == $r['categorie_pieceId']) {
+                                                    $nom = $l1['nom'];
+                                                    $id = $l1['id'];
+                                                    echo "<option value='$id' selected>$nom";
+                                                } else {
+                                                    $nom = $l1['nom'];
+                                                    $id = $l1['id'];
+                                                    echo "<option value='$id'>$nom";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="marque_pieceId">
+                                            <?php
+                                            foreach ($list2 as $l3) {
+                                                if ($l3['id'] == $r['marque_pieceId']) {
+                                                    $nom = $l3['nom'];
+                                                    $id = $l3['id'];
+                                                    echo "<option value='$id' selected>$nom";
+                                                } else {
+                                                    $nom = $l3['nom'];
+                                                    $id = $l3['id'];
+                                                    echo "<option value='$id'>$nom";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="marque_vehiculeId">
+                                            <?php
+                                            foreach ($list4 as $l4) {
+                                                if ($l4['id'] == $r['marque_vehiculeId']) {
+                                                    $nom = $l4['nom'];
+                                                    $id = $l4['id'];
+                                                    echo "<option value='$id' selected>$nom";
+                                                } else {
+                                                    $nom = $l4['nom'];
+                                                    $id = $l4['id'];
+                                                    echo "<option value='$id'>$nom";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
 
-    <div style="margin: auto; margin-top: 50px;">
-        <center>
-            <div>
-                <?php if (isset($_GET['id'])) { ?>
-                    <input type="hidden" name="id" value="<?= $_GET['id']?>">
-                    <table class="taaaable table-bordered" id="table_abc">
-                        <thead>
-                            <th>reference</th>
-                            <th>designation</th>
-                            <th>categorie piece</th>
-                            <th>marque piece</th>
-                            <th>marque vehicule</th>
-                            <th>casier</th>
-                            <th>fournisseur</th>
-                            <th>prix unitaire</th>
-                            <th>Taux de remise</th>
-                            <!-- <th>quantite</th> -->
-                        </thead>
-                        <?php
-                        foreach ($reponse1 as $r) :
-                            $fournisseur = $r['fournisseurId'];
-                            $category = $r['categorie_pieceId'];
-                            $marque_piece = $r['marque_pieceId'];
-                            $marque_vehicule = $r['marque_vehiculeId'];
-                            $dlist1 = $bdd->query("SELECT * FROM fournisseur WHERE id=$fournisseur");
-                            $dlist2 = $bdd->query("SELECT * FROM categorie_piece WHERE id=$category");
-                            $dlist3 = $bdd->query("SELECT * FROM marque_piece WHERE id=$marque_piece");
-                            $dlist4 = $bdd->query("SELECT * FROM marque_vehicule WHERE id=$marque_vehicule");
-                        ?>
-                            <tr <?php if ($r['quantite'] >= 1) echo "class='clickable-row-g'";
-                                else  echo "class='clickable-row-r'"; ?> data-href='product-details.php?id=<?php echo $r['id'] ?>'>
-                                <td> <input type="text" value="<?php echo $r['ref'] ?>" name="ref"> </td>
-                                <td><input type="text" value="<?php echo $r['designation'] ?>" name="des"> </td>
-                                <td>
-                                    <select name="categorie_pieceId">
-                                        <?php
-                                        foreach ($list1 as $l1) {
-                                            if ($l1['id'] == $r['categorie_pieceId']) {
-                                                $nom = $l1['nom'];
-                                                $id = $l1['id'];
-                                                echo "<option value='$id' selected>$nom";
-                                            } else {
-                                                $nom = $l1['nom'];
-                                                $id = $l1['id'];
-                                                echo "<option value='$id'>$nom";
+                                    </td>
+                                    <td> <input type="text" value="<?php echo $r['casier'] ?>" name="casier"> </td>
+                                    <td>
+                                        <select name="fournisseur">
+                                            <?php
+                                            foreach ($list3 as $l3) {
+                                                if ($l3['id'] == $r['fournisseurId']) {
+                                                    $nom = $l3['nom'];
+                                                    $id = $l3['id'];
+                                                    echo "<option value='$id' selected>$nom";
+                                                } else {
+                                                    $nom = $l3['nom'];
+                                                    $id = $l3['id'];
+                                                    echo "<option value='$id'>$nom";
+                                                }
                                             }
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="marque_pieceId">
-                                        <?php
-                                        foreach ($list2 as $l3) {
-                                            if ($l3['id'] == $r['marque_pieceId']) {
-                                                $nom = $l3['nom'];
-                                                $id = $l3['id'];
-                                                echo "<option value='$id' selected>$nom";
-                                            } else {
-                                                $nom = $l3['nom'];
-                                                $id = $l3['id'];
-                                                echo "<option value='$id'>$nom";
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="marque_vehiculeId">
-                                        <?php
-                                        foreach ($list4 as $l4) {
-                                            if ($l4['id'] == $r['marque_vehiculeId']) {
-                                                $nom = $l4['nom'];
-                                                $id = $l4['id'];
-                                                echo "<option value='$id' selected>$nom";
-                                            } else {
-                                                $nom = $l4['nom'];
-                                                $id = $l4['id'];
-                                                echo "<option value='$id'>$nom";
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-
-                                </td>
-                                <td> <input type="text" value="<?php echo $r['casier'] ?>" name="casier"> </td>
-                                <td>
-                                    <select name="fournisseur">
-                                        <?php
-                                        foreach ($list3 as $l3) {
-                                            if ($l3['id'] == $r['fournisseurId']) {
-                                                $nom = $l3['nom'];
-                                                $id = $l3['id'];
-                                                echo "<option value='$id' selected>$nom";
-                                            } else {
-                                                $nom = $l3['nom'];
-                                                $id = $l3['id'];
-                                                echo "<option value='$id'>$nom";
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                                <td> <input type="number" value="<?php echo $r['pu'] ?>" name="pu"> </td>
-                                <td> <input type="number" value="<?php echo $r['taux_remise'] ?>" name="tr"> </td>
-                            </tr>
-                        <?php endforeach;  ?>
-                    </table>
-                <?php } ?>
-            </div>
-        </center>
-    </div>
-    <input class="button" style="background-color: red; position: fixed; left: 10px; bottom: 10px;" type="submit" value="supprimer" name="delete">
-    <input class="button" style="position: fixed; right: 10px; bottom: 10px;" type="submit" value="Mis a jour" name="update" >
-
+                                            ?>
+                                        </select>
+                                    </td>
+                                    <td> <input type="number" value="<?php echo $r['pu'] ?>" name="pu"> </td>
+                                    <td> <input type="number" value="<?php echo $r['taux_remise'] ?>" name="tr"> </td>
+                                </tr>
+                            <?php endforeach;  ?>
+                        </table>
+                    <?php } ?>
+                </div>
+            </center>
+        </div>
+        <input class="button" style="background-color: red; position: fixed; left: 10px; bottom: 10px;" type="submit" value="supprimer" name="delete">
+        <input class="button" style="position: fixed; right: 10px; bottom: 10px;" type="submit" value="Mis a jour" name="update">
+    </form>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>

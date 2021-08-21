@@ -156,7 +156,7 @@ else
                         endforeach;
                         ?>
                     </select>
-                    <span style=""><input type="submit" value="chercher"></span>
+                    <span style=""><input type="submit" value="chercher" class="button"></span>
                 </form>
             </center>
         </div>
@@ -191,7 +191,8 @@ else
                         $dlist3 = $bdd->query("SELECT * FROM marque_piece WHERE id=$marque_piece");
                         $dlist4 = $bdd->query("SELECT * FROM marque_vehicule WHERE id=$marque_vehicule");
                     ?>
-                        <tr <?php if ($r['quantite'] >= 1) echo "class='clickable-row-g'";else  echo "class='clickable-row-r'"; ?> data-href='product-details.php?id=<?php echo $r['id'] ?>'>
+                        <tr <?php if ($r['quantite'] >= 1) echo "class='clickable-row-g'";
+                            else  echo "class='clickable-row-r'"; ?> data-href='product-details.php?id=<?php echo $r['id'] ?>'>
                             <td> <?php echo $r['ref'] ?> </td>
                             <td> <?php echo $r['designation'] ?> </td>
                             <td> <?php foreach ($dlist2 as $dl2) : echo $dl2['nom'];
@@ -205,7 +206,7 @@ else
                                     endforeach;  ?> </td>
                             <td> <?php echo $r['pu'] ?> </td>
                             <td> <?php echo $r['quantite'] ?> </td>
-                            <td class="nonclickable"><input onclick="cart(<?php echo $r['quantite'] ?>, <?php echo $r['id'] ?>, <?= $r['taux_remise'] ?>)" id="<?php echo $r['id'] ?>" type="submit" value="ajouter au panier" <?php if ($r['quantite'] < 1) echo 'disabled'; ?> ></td>
+                            <td class="nonclickable"><input onclick="cart(<?php echo $r['quantite'] ?>, <?php echo $r['id'] ?>, <?= $r['taux_remise'] ?>)" id="<?php echo $r['id'] ?>" type="submit" value="ajouter au panier" <?php if ($r['quantite'] < 1) echo 'disabled'; ?>></td>
                             <!-- <td> <?php/*  echo $r['quantite_global'] */ ?> </td> -->
                         </tr>
                     <?php endforeach;  ?>
@@ -273,6 +274,14 @@ else
             bottom: 3px;
 
         }
+
+        #eye:hover {
+            color: #fbaf32;
+        }
+
+        #taux {
+            display: none;
+        }
     </style>
 
     <div id="idg1" class="modal">
@@ -280,17 +289,31 @@ else
             <div class="imgcontainer">
                 <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
                 quantite: <input style="width: 50%;" type="number" min="1" max="" id="inp" required> <br>
-                Taux de remise: <input style="width: 50%;" type="number" min="0" max="" id="tr" value="0">%
-                <input class="cart" id="<?php echo $r['id'] ?>" type="submit" value="ajouter au panier">
+                Taux de remise: <input style="width: 50%;" type="number" min="0" max="" id="tr" value="0">% <br>
+                <div id="taux"></div> <br>
+                <input class="cart button" id="<?php echo $r['id'] ?>" type="submit" value="ajouter au panier">
             </div>
         </div>
     </div>
     <script>
+        $(function() {
+            $("body").keydown(function(e) {
+                e.preventDefault();
+                var keyCode = e.keyCode;
+                if (keyCode == 112) {
+                    if (document.getElementById('taux').style.display == 'block')
+                        document.getElementById('taux').style.display = 'none';
+                    else
+                        document.getElementById('taux').style.display = 'block';
+                }
+            });
+        });
         function cart(q, inp, trr) {
             document.getElementById('idg1').style.display = 'block';
             window.x = q;
             window.i = inp;
             window.tr = trr;
+            document.getElementById('taux').innerHTML = window.tr + '%';
         }
         document.getElementById("inp").addEventListener("change", function() {
             let v = parseInt(this.value);
