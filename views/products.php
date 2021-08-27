@@ -282,7 +282,8 @@ if (!empty($_GET['g'])) {
             <label for="designation">designation</label>
             <input type="text" name="designation" id="designation" required> <br>
             <label for="categorie">categorie piece</label>
-            <select name="categorie_pieceId">
+            <select name="categorie_pieceId" required>
+                <option value="">
                 <?php foreach ($reponse1 as $r1) :
                     $nom = $r1['nom'];
                     $id = $r1['id'];
@@ -291,7 +292,8 @@ if (!empty($_GET['g'])) {
                 ?>
             </select>
             <label for="marque_pieceId">marque piece</label>
-            <select name="marque_pieceId">
+            <select name="marque_pieceId" required>
+                <option value="">
                 <?php foreach ($reponse2 as $r2) :
                     $nom = $r2['nom'];
                     $id = $r2['id'];
@@ -299,19 +301,29 @@ if (!empty($_GET['g'])) {
                 endforeach;
                 ?>
             </select>
-            <label for="marque_vehiculeId">marque vehicule</label>: <br>
-            <?php foreach ($reponse3 as $r3) :
+            <label for="marque_vehiculeId">marque vehicule</label>
+            <select name="marque_vehiculeId" required>
+                <option value="">
+                <?php foreach ($reponse3 as $r3) :
+                    $nom = $r3['nom'];
+                    $id = $r3['id'];
+                    echo "<option value='$id'>$nom";
+                endforeach;
+                ?>
+            </select> <br>
+            <?php /* foreach ($reponse3 as $r3) :
                 $nom = $r3['nom'];
                 $id = $r3['id'];
                 echo "<input type='checkbox' name='marque_vehiculeId[]' value='$id'>$nom <br>";
-            endforeach;
+            endforeach; */
             ?><br>
             <label for="casier">casier</label>
             <input type="text" name="casier" id="casier"> <br>
             <label for="image">image</label>
             <input class="btn btn-info" type="file" id='upload' name="profile" accept="image/*"> <br>
             <label for="fournisseurId">fournisseur</label>
-            <select name="fournisseurId">
+            <select name="fournisseurId" required>
+                <option value="">
                 <?php foreach ($reponse4 as $r4) :
                     $nom = $r4['nom'];
                     $id = $r4['id'];
@@ -320,11 +332,11 @@ if (!empty($_GET['g'])) {
                 ?>
             </select>
             <label for="pu_f">prix unitaire fournisseur</label>
-            <input type="number" name="pu_f" id="pu_f"> <br>
+            <input type="number" name="pu_f" id="pu_f" min="1" required> <br>
             <label for="pu">prix unitaire</label>
-            <input type="number" name="pu" id="pu"> <br>
+            <input type="number" name="pu" id="pu" min="1" required> <br>
             <label for="remise">taux de remise</label>
-            <input type="number" name="remise" id="remise">%<br>
+            <input type="number" name="remise" id="remise" min="0" required>%<br>
             <textarea name="description" id="" cols="30" rows="10"></textarea> <br> <br>
             <center><input type="submit" value="ajouter"></center>
         </div>

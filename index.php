@@ -110,7 +110,7 @@ $list1 = $bdd->query("SELECT * FROM client");
                     <div class="col-md-4" onclick="window.location.replace('views/products-nonadmin.php')">
                         <div class="food-item">
                             <i class="fas fa-list"></i>
-                            <h3>details produits</h3>
+                            <h3>Stock</h3>
                             <a href=""></a>
                         </div>
                     </div>
@@ -168,7 +168,7 @@ $list1 = $bdd->query("SELECT * FROM client");
                 <center>
                     <label for="nom">numero de facture</label> <br>
                     <input type="number" name="n" id="n" required> <br> <br>
-                    <input type="submit" value="envoyer" class="button">
+                    <input type="submit" value="envoyer" class="button" onclick="document.getElementById('id01').style.display='none';">
                 </center>
             </div>
         </form>
@@ -178,7 +178,7 @@ $list1 = $bdd->query("SELECT * FROM client");
             <div class="container">
                 <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
                 <center>
-                    <select name="idcl" id="" class="butto">
+                    <select name="idcl" id="" class="butto" style="border: black solid 1px;">
                         <?php foreach ($list1 as $l1) {
                             $cl_id = $l1['id'];
                             $cl_nm = $l1['nom'];

@@ -195,7 +195,7 @@ if ($_GET['g'] == '3') {
 
 
 
-<!-- ajouter divs start-->
+<!-- ajouter divs start
 <div id="id01" class="modal">
     <form class="modal-content1 animate " action="config/products.php" method="post" enctype='multipart/form-data'>
         <div class="container">
@@ -254,7 +254,7 @@ if ($_GET['g'] == '3') {
             <center><input type="submit" value="ajouter" class="button"></center>
         </div>
     </form>
-</div>
+</div>-->
 
 
 
