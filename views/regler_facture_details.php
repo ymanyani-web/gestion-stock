@@ -1,9 +1,5 @@
 <?php
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 if(isset($_POST['id_f']) && isset($_POST['m_rg']) && isset($_POST['id_c']) && isset($_POST['credit'])){
     if($_POST['m_rg'] > $_POST['credit'])
     {
@@ -49,7 +45,7 @@ if (!empty($idf)) {
 
 <head>
     <meta charset="utf-8">
-    <title>Union pieces agricoles</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -84,8 +80,8 @@ if (!empty($idf)) {
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto">
-                    <a href="../index.php" class="nav-item nav-link active">Home</a>
-                    <a href="../admin.php" class="nav-item nav-link">Admin</a>
+                    <a href="../index.php" class="nav-item nav-link active">Accueil</a>
+                    <a href="../admin.php" class="nav-item nav-link">Administrateur</a>
                 </div>
             </div>
         </div>
@@ -174,7 +170,7 @@ if (!empty($idf)) {
 
 
     <div id="idg1" class="modal">
-        <form class="modal-content animate" style="width: 50%;" method="post" action="../config/finish_command.php">
+        <form class="modal-content animate" style="width: 50%;" method="post" action="../controller/finish_command.php">
             <div class="imgcontainer">
                 <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
                 Montant : <input type="number" name="montant" placeholder="le montant donne"> DH<br><br>

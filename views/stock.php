@@ -1,9 +1,5 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 $list1 = $bdd->query("SELECT * FROM categorie_piece");
 $list2 = $bdd->query("SELECT * FROM marque_piece");
 $list3 = $bdd->query("SELECT * FROM fournisseur");
@@ -24,7 +20,7 @@ if (isset($_POST['ref'])) {
 
 <head>
     <meta charset="utf-8">
-    <title>Union pieces agricoles</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -58,8 +54,8 @@ if (isset($_POST['ref'])) {
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto">
-                    <a href="../index.php" class="nav-item nav-link active">Home</a>
-                    <a href="../admin.php" class="nav-item nav-link">Admin</a>
+                    <a href="../index.php" class="nav-item nav-link active">Accueil</a>
+                    <a href="../admin.php" class="nav-item nav-link">Administrateur</a>
                 </div>
             </div>
         </div>
@@ -188,7 +184,7 @@ if (isset($_POST['ref'])) {
                 $('#sub').click(function() {
                     var quantite = $('#q').val();
                     if (quantite >= 1) {
-                        $.get("../config/stock.php?id=" + idd + "&q=" + quantite, function(data, status) {
+                        $.get("../controller/stock.php?id=" + idd + "&q=" + quantite, function(data, status) {
                             if (status == 'success') {
                                 alert("LE STOCK A ETE MaJ AVEC SUCCES");
                                 $('#q').val(1)

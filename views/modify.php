@@ -1,9 +1,5 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $reponse1 = $bdd->query("SELECT * FROM  products WHERE `id` = $id");
@@ -52,7 +48,7 @@ if (isset($_POST['delete'])) {
 
 <head>
     <meta charset="utf-8">
-    <title>@@@@</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -86,8 +82,8 @@ if (isset($_POST['delete'])) {
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto">
-                    <a href="../index.php" class="nav-item nav-link active">Home</a>
-                    <a href="../admin.php" class="nav-item nav-link">Admin</a>
+                    <a href="../index.php" class="nav-item nav-link active">Accueil</a>
+                    <a href="../admin.php" class="nav-item nav-link">Administrateur</a>
                 </div>
             </div>
         </div>

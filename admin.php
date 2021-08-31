@@ -1,9 +1,5 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include 'config/database.php';
 $reponse1 = $bdd->query("SELECT * FROM categorie_piece");
 $reponse2 = $bdd->query("SELECT * FROM marque_piece");
 $reponse3 = $bdd->query("SELECT * FROM marque_vehicule");
@@ -15,7 +11,7 @@ $reponse4 = $bdd->query("SELECT * FROM fournisseur");
 
 <head>
     <meta charset="utf-8">
-    <title>######</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free Website Template" name="keywords">
     <meta content="Free Website Template" name="description">
@@ -48,14 +44,8 @@ $reponse4 = $bdd->query("SELECT * FROM fournisseur");
 
 
 <?php
-if ($_GET['g'] == '1') {
+if (!empty($_GET['g'])) {
     echo "<body onload='document.getElementById(\"idg1\").style.display=\"block\"' style='width:auto;'>";
-}
-if ($_GET['g'] == '2') {
-    echo "<body onload='document.getElementById(\"idg2\").style.display=\"block\"' style='width:auto;'>";
-}
-if ($_GET['g'] == '3') {
-    echo "<body onload='document.getElementById(\"idg3\").style.display=\"block\"' style='width:auto;'>";
 } else {
     echo "<body>";
 }
@@ -63,22 +53,15 @@ if ($_GET['g'] == '3') {
 <!-- Nav Bar Start -->
 <div class="navbar navbar-expand-lg bg-light navbar-light">
     <div class="container-fluid">
-        <a href="index.html" class="navbar-brand">Union pièces <span>agricoles</span></a>
+        <a href="index.php" class="navbar-brand">Union pièces <span>agricoles</span></a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ml-auto">
-                <a href="index.php" class="nav-item nav-link">Home</a>
-                <a href="#" class="nav-item nav-link active">Admin</a>
-                <!-- <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu">
-                        <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                        <a href="single.html" class="dropdown-item">Blog Detail</a>
-                    </div>
-                </div> -->
+                <a href="index.php" class="nav-item nav-link">Accueil</a>
+                <a href="#" class="nav-item nav-link active">Administrateur</a>
             </div>
         </div>
     </div>
@@ -92,9 +75,6 @@ if ($_GET['g'] == '3') {
         <div class="row">
             <div class="col-12">
                 <h2>######</h2>
-            </div>
-            <div class="col-12">
-                <a href="">Home</a>
             </div>
         </div>
     </div>
@@ -195,71 +175,12 @@ if ($_GET['g'] == '3') {
 
 
 
-<!-- ajouter divs start
-<div id="id01" class="modal">
-    <form class="modal-content1 animate " action="config/products.php" method="post" enctype='multipart/form-data'>
-        <div class="container">
-            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <label for="ref">reference</label>
-            <input type="text" name="ref" id="ref" required> <br>
-            <label for="designation">designation</label>
-            <input type="text" name="designation" id="designation" required> <br>
-            <label for="categorie">categorie piece</label>
-            <select name="categorie_pieceId">
-                <?php foreach ($reponse1 as $r1) :
-                    $nom = $r1['nom'];
-                    $id = $r1['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
-            </select>
-            <label for="marque_pieceId">marque piece</label>
-            <select name="marque_pieceId">
-                <?php foreach ($reponse2 as $r2) :
-                    $nom = $r2['nom'];
-                    $id = $r2['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
-            </select>
-            <label for="marque_vehiculeId">marque vehicule</label>
-            <select name="marque_vehiculeId">
-                <?php foreach ($reponse3 as $r3) :
-                    $nom = $r3['nom'];
-                    $id = $r3['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
-            </select> <br>
-            <label for="casier">casier</label>
-            <input type="text" name="casier" id="casier"> <br>
-            <label for="image">image</label>
-            <input class="btn btn-info" type="file" id='upload' name="profile" accept="image/*"> <br>
-            <label for="fournisseurId">fournisseur</label>
-            <select name="fournisseurId">
-                <?php foreach ($reponse4 as $r4) :
-                    $nom = $r4['nom'];
-                    $id = $r4['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
-            </select>
-            <label for="pu_f">prix unitaire fournisseur</label>
-            <input type="number" name="pu_f" id="pu_f"> <br>
-            <label for="pu">prix unitaire</label>
-            <input type="number" name="pu" id="pu"> <br>
-            <label for="remise">taux de remise</label>
-            <input type="number" name="remise" id="remise">%<br>
-            <textarea name="description" id="" cols="30" rows="10"></textarea> <br> <br>
-            <center><input type="submit" value="ajouter" class="button"></center>
-        </div>
-    </form>
-</div>-->
+
 
 
 
 <div id="id02" class="modal">
-    <form class="modal-content animate" action="config/client.php" method="post">
+    <form class="modal-content animate" action="controller/client.php" method="post">
         <div class="container">
             <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
             <center> <label for="nom">nom et prenom</label> <br>
@@ -280,7 +201,7 @@ if ($_GET['g'] == '3') {
 
 
 <div id="id03" class="modal">
-    <form class="modal-content animate" action="config/fournisseur.php" method="post">
+    <form class="modal-content animate" action="controller/fournisseur.php" method="post">
         <div class="container">
             <center><label for="nom">nom et prenom</label><br>
                 <input type="text" name="nom" id="nom" required> <br>
@@ -349,33 +270,19 @@ if ($_GET['g'] == '3') {
         <div class="imgcontainer">
             <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
             <img src="img/error.png" alt="Avatar" class="avatar">
-            <h3>l'utilisateure a ete ajoute avec succes</h3>
+            <?php
+            if (isset($_GET['g']) && $_GET['g'] == '1')
+                echo "<h3>l'utilisateure a ete ajoute avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == '2')
+                echo "<h3>votre produit a ete ajoute avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == '3')
+                echo " <h3>votre fournisseur a ete ajoute avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == '4')
+                echo " <h3></h3>";
+            ?>
         </div>
     </form>
 </div>
-<div id="idg2" class="modal">
-    <form class="modal-content animate" action="/action_page.php" method="post">
-        <div class="imgcontainer">
-            <span onclick="document.getElementById('idg2').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="img/error.png" alt="Avatar" class="avatar">
-            <h3>votre produit a ete ajoute avec succes</h3>
-        </div>
-    </form>
-</div>
-<div id="idg3" class="modal">
-    <form class="modal-content animate" action="/action_page.php" method="post">
-        <div class="imgcontainer">
-            <span onclick="document.getElementById('idg3').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="img/error.png" alt="Avatar" class="avatar">
-            <h3>votre fournisseur a ete ajoute avec succes</h3>
-        </div>
-    </form>
-</div>
-
-
-
-
-
 
 
 
@@ -390,8 +297,6 @@ if ($_GET['g'] == '3') {
     var modal3 = document.getElementById('id03');
 
     var modalg1 = document.getElementById('idg1');
-    var modalg2 = document.getElementById('idg2');
-    var modalg3 = document.getElementById('idg3');
 
 
     window.onclick = function(event) {
@@ -415,12 +320,6 @@ if ($_GET['g'] == '3') {
         }
         if (event.target == modalg1) {
             modalg1.style.display = "none";
-        }
-        if (event.target == modalg2) {
-            modalg2.style.display = "none";
-        }
-        if (event.target == modalg3) {
-            modalg3.style.display = "none";
         }
     }
 </script>

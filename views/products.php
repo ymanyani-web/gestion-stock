@@ -1,9 +1,5 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 $list1 = $bdd->query("SELECT * FROM categorie_piece");
 $list2 = $bdd->query("SELECT * FROM marque_piece");
 $list3 = $bdd->query("SELECT * FROM fournisseur");
@@ -42,7 +38,7 @@ $reponse4 = $bdd->query("SELECT * FROM fournisseur");
         }
     </style>
     <meta charset="utf-8">
-    <title>@@@@</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -89,8 +85,8 @@ if (!empty($_GET['g'])) {
 
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ml-auto">
-                <a href="../index.php" class="nav-item nav-link active">Home</a>
-                <a href="../admin.php" class="nav-item nav-link">Admin</a>
+                <a href="../index.php" class="nav-item nav-link ">Accueil</a>
+                <a href="../admin.php" class="nav-item nav-link active">Administrateur</a>
                 <!--                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu">
@@ -274,7 +270,7 @@ if (!empty($_GET['g'])) {
 
 
 <div id="id01" class="modal">
-    <form class="modal-content1 animate " action="../config/products.php" method="post" enctype='multipart/form-data'>
+    <form class="modal-content1 animate " action="../controller/products.php" method="post" enctype='multipart/form-data'>
         <div class="container">
             <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
             <label for="ref">reference</label>
@@ -284,32 +280,32 @@ if (!empty($_GET['g'])) {
             <label for="categorie">categorie piece</label>
             <select name="categorie_pieceId" required>
                 <option value="">
-                <?php foreach ($reponse1 as $r1) :
-                    $nom = $r1['nom'];
-                    $id = $r1['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
+                    <?php foreach ($reponse1 as $r1) :
+                        $nom = $r1['nom'];
+                        $id = $r1['id'];
+                        echo "<option value='$id'>$nom";
+                    endforeach;
+                    ?>
             </select>
             <label for="marque_pieceId">marque piece</label>
             <select name="marque_pieceId" required>
                 <option value="">
-                <?php foreach ($reponse2 as $r2) :
-                    $nom = $r2['nom'];
-                    $id = $r2['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
+                    <?php foreach ($reponse2 as $r2) :
+                        $nom = $r2['nom'];
+                        $id = $r2['id'];
+                        echo "<option value='$id'>$nom";
+                    endforeach;
+                    ?>
             </select>
             <label for="marque_vehiculeId">marque vehicule</label>
             <select name="marque_vehiculeId" required>
                 <option value="">
-                <?php foreach ($reponse3 as $r3) :
-                    $nom = $r3['nom'];
-                    $id = $r3['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
+                    <?php foreach ($reponse3 as $r3) :
+                        $nom = $r3['nom'];
+                        $id = $r3['id'];
+                        echo "<option value='$id'>$nom";
+                    endforeach;
+                    ?>
             </select> <br>
             <?php /* foreach ($reponse3 as $r3) :
                 $nom = $r3['nom'];
@@ -324,12 +320,12 @@ if (!empty($_GET['g'])) {
             <label for="fournisseurId">fournisseur</label>
             <select name="fournisseurId" required>
                 <option value="">
-                <?php foreach ($reponse4 as $r4) :
-                    $nom = $r4['nom'];
-                    $id = $r4['id'];
-                    echo "<option value='$id'>$nom";
-                endforeach;
-                ?>
+                    <?php foreach ($reponse4 as $r4) :
+                        $nom = $r4['nom'];
+                        $id = $r4['id'];
+                        echo "<option value='$id'>$nom";
+                    endforeach;
+                    ?>
             </select>
             <label for="pu_f">prix unitaire fournisseur</label>
             <input type="number" name="pu_f" id="pu_f" min="1" required> <br>
@@ -348,14 +344,21 @@ if (!empty($_GET['g'])) {
     <form class="modal-content animate" action="/action_page.php" method="post">
         <div class="imgcontainer">
             <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="../img/error.png" alt="Avatar" class="avatar">
             <?php
-            if ($_GET['g'] == 1)
+            if (isset($_GET['g']) && $_GET['g'] == 4)
+                echo '<img src="../img/dd.png" alt="Avatar" class="avatar">';
+            else
+                echo '<img src="../img/error.png" alt="Avatar" class="avatar">';
+            ?>
+            <?php
+            if (isset($_GET['g']) && $_GET['g'] == 1)
                 echo "<h3>le produit a ete ajoute avec succes</h3>";
-            elseif ($_GET['g'] == 2)
+            elseif (isset($_GET['g']) && $_GET['g'] == 2)
                 echo "<h3>le produit a ete modifie avec succes</h3>";
-            elseif ($_GET['g'] == 3)
+            elseif (isset($_GET['g']) && $_GET['g'] == 3)
                 echo "<h3>le produit a ete suprime avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == 4)
+                echo "<h3>Deja un produit avec cette reference, Veuillez réessayer</h3>";
             ?>
         </div>
     </form>

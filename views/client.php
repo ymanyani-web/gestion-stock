@@ -1,20 +1,10 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
-if (!empty($_POST['nom'])) {
-    $var1 = $_POST['nom'];
+include '../config/database.php';
+$var1 = !empty($_POST['nom']) ? $_POST['nom'] : '%';
+$var2 = !empty($_POST['cin']) ? $_POST['cin'] : "%";
+$reponse1 = $bdd->query("SELECT * FROM  client WHERE `nom` LIKE '$var1' AND cin LIKE '$var2' ");
 
-    $reponse1 = $bdd->query("SELECT * FROM  client WHERE `nom` = '$var1' ");
-}
-if (!empty($_POST['cin'])) {
-    $var2 = $_POST['cin'];
 
-    /* $reponse1 = $bdd->query("SELECT * FROM  products WHERE `ref` LIKE '$var1' AND designation LIKE '$var2' "); */
-    $reponse1 = $bdd->query("SELECT * FROM  client WHERE `cin` = '$var2' ");
-}
 ?>
 
 <!DOCTYPE html>
@@ -23,23 +13,33 @@ if (!empty($_POST['cin'])) {
 <head>
     <style>
         .button {
-  background-color: #719a0a; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-#add_new{
-    position: fixed;
-    right: 10px;
+            background-color: #719a0a;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
 
-}
+        #add_new {
+            position: fixed;
+            right: 10px;
+
+        }
     </style>
+    <script>
+        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+            console.info("This page is reloaded");
+            window.location.replace("client.php");
+        } else {
+            console.info("This page is not reloaded");
+        }
+    </script>
     <meta charset="utf-8">
-    <title>Burger King - Food Website Template</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -62,7 +62,7 @@ if (!empty($_POST['cin'])) {
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <?php
-if ($_GET['g'] == '1') {
+if (isset($_GET['g'])) {
     echo "<body onload='document.getElementById(\"idg1\").style.display=\"block\"' style='width:auto;'>";
 } else
     echo "<body>";
@@ -77,16 +77,8 @@ if ($_GET['g'] == '1') {
 
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ml-auto">
-                <a href="../index.php" class="nav-item nav-link active">Home</a>
-                <a href="../admin.php" class="nav-item nav-link">Admin</a>
-                <!--                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="single.html" class="dropdown-item">Blog Detail</a>
-                        </div>
-                    </div>
--->
+                <a href="../index.php" class="nav-item nav-link ">Accueil</a>
+                <a href="../admin.php" class="nav-item nav-link active">Administrateur</a>
             </div>
         </div>
     </div>
@@ -115,7 +107,7 @@ if ($_GET['g'] == '1') {
 <div class="booking">
     <div class="booking-form">
         <center>
-            <form action="" method="post">
+            <form action="client.php" method="post">
                 filtrer par: <br>
                 <label for="ref">nom</label>
                 <input type="text" name="nom" id="nom">
@@ -125,7 +117,7 @@ if ($_GET['g'] == '1') {
             </form>
         </center>
         <div id="add_new">
-            <button class="button"onclick="document.getElementById('id02').style.display='block'"> Ajouter un nouveau client</button>
+            <button class="button" onclick="document.getElementById('id02').style.display='block'"> Ajouter un nouveau client</button>
         </div>
     </div>
 
@@ -148,7 +140,7 @@ if ($_GET['g'] == '1') {
                 <?php
                 foreach ($reponse1 as $r) :
                 ?>
-                    <tr class='' data-href='product-details.php?id=<?php echo $r['id'] ?>'>
+                    <tr class='clickable-row' data-href='../controller/client-modifier.php?id=<?php echo $r['id'] ?>'>
                         <td> <?php echo $r['nom'] ?> </td>
                         <td> <?php echo $r['cin'] ?> </td>
                         <td> <?php echo $r['numero'] ?> </td>
@@ -169,7 +161,7 @@ if ($_GET['g'] == '1') {
 </script>
 <style>
     tr:hover {
-        background: red;
+        background: #a9dfbf;
     }
 
     .taaaable {
@@ -194,7 +186,7 @@ if ($_GET['g'] == '1') {
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
 <div id="id02" class="modal">
-    <form class="modal-content animate" action="../config/client.php?path=2" method="post">
+    <form class="modal-content animate" action="../controller/client.php?path=2" method="post">
         <div class="container">
             <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
             <center> <label for="nom">nom et prenom</label> <br>
@@ -216,8 +208,23 @@ if ($_GET['g'] == '1') {
     <form class="modal-content animate" action="/action_page.php" method="post">
         <div class="imgcontainer">
             <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="../img/error.png" alt="Avatar" class="avatar">
-            <h3>le client a ete ajoute avec succes</h3>
+            <?php
+            if (isset($_GET['g']) && $_GET['g'] == '2')
+                echo '<img src="../img/dd.png" alt="Avatar" class="avatar">';
+            else
+                echo '<img src="../img/error.png" alt="Avatar" class="avatar">';
+            ?>
+            <?php
+            if (isset($_GET['g']) && $_GET['g'] == '1')
+                echo "<h3>le client a ete ajoute avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == '2')
+                echo "<h3>il y a deja un client avec ce nom, veuillez reesayer</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == '3')
+                echo "<h3>Le client a ete modifie avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == '4')
+                echo "<h3>Le client a ete supprime avec succes</h3>";
+
+            ?>
         </div>
     </form>
 </div>

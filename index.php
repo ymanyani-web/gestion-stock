@@ -1,9 +1,5 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include 'config/database.php';
 $reponse1 = $bdd->query("SELECT * FROM categorie_piece");
 $reponse2 = $bdd->query("SELECT * FROM marque_piece");
 $reponse3 = $bdd->query("SELECT * FROM marque_vehicule");
@@ -27,7 +23,7 @@ $list1 = $bdd->query("SELECT * FROM client");
 
 <head>
     <meta charset="utf-8">
-    <title>######</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free Website Template" name="keywords">
     <meta content="Free Website Template" name="description">
@@ -70,8 +66,8 @@ $list1 = $bdd->query("SELECT * FROM client");
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto">
-                    <a href="#" class="nav-item nav-link active">Home</a>
-                    <a href="admin.php" class="nav-item nav-link ">Admin</a>
+                    <a href="#" class="nav-item nav-link active">Accueil</a>
+                    <a href="admin.php" class="nav-item nav-link ">Administrateur</a>
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu">

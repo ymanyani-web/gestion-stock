@@ -1,9 +1,5 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 if (isset($_POST['nom'])) {
     $nom = isset($_POST['nom']) ? trim($_POST['nom']) : "";
     $telephone = isset($_POST['telephone']) ? trim($_POST['telephone']) : "";

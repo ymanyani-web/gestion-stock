@@ -1,9 +1,5 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 if (!empty($_POST['nom'])) {
     $var1 = $_POST['nom'];
 
@@ -41,7 +37,7 @@ if (!empty($_POST['ville'])) {
         }
     </style>
     <meta charset="utf-8">
-    <title>B###</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -68,7 +64,7 @@ if (!empty($_POST['ville'])) {
     </script>
 </head>
 <?php
-if ($_GET['g'] == '1') {
+if (isset($_GET['g']) && $_GET['g'] == '1') {
     echo "<body onload='document.getElementById(\"idg1\").style.display=\"block\"' style='width:auto;'>";
 } else
     echo "<body>";
@@ -83,8 +79,8 @@ if ($_GET['g'] == '1') {
 
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ml-auto">
-                <a href="../index.php" class="nav-item nav-link active">Home</a>
-                <a href="../admin.php" class="nav-item nav-link">Admin</a>
+                <a href="../index.php" class="nav-item nav-link ">Accueil</a>
+                <a href="../admin.php" class="nav-item nav-link active">Administrateur</a>
                 <!--                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu">
@@ -200,7 +196,7 @@ if ($_GET['g'] == '1') {
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
 <div id="id03" class="modal">
-    <form class="modal-content animate" action="../config/fournisseur.php" method="post">
+    <form class="modal-content animate" action="../controller/fournisseur.php" method="post">
         <div class="container">
             <center><label for="nom">nom et prenom</label><br>
                 <input type="text" name="nom" id="nom" required> <br>

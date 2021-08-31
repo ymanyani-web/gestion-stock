@@ -1,10 +1,6 @@
 <?php
 session_start();
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 $list1 = $bdd->query("SELECT * FROM categorie_piece");
 $list2 = $bdd->query("SELECT * FROM marque_piece");
 $list3 = $bdd->query("SELECT * FROM fournisseur");
@@ -29,7 +25,7 @@ else
 
 <head>
     <meta charset="utf-8">
-    <title>UNION PIECES AGRICOLES</title>
+    <title>UPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <style>
@@ -92,8 +88,8 @@ else
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto">
-                    <a href="../index.php" class="nav-item nav-link active">Home</a>
-                    <a href="../admin.php" class="nav-item nav-link">Admin</a>
+                    <a href="../index.php" class="nav-item nav-link active">Accueil</a>
+                    <a href="../admin.php" class="nav-item nav-link">Administrateur</a>
                 </div>
             </div>
         </div>
@@ -246,14 +242,14 @@ else
 
     <div id="add_new">
         <div class="col-xl-9 col-lg-10 col-sm-8 col-7">
-            <a href="../config/cart.php" class="cart position-relative d-inline-flex" aria-label="View your shopping cart">
+            <a href="../controller/cart.php" class="cart position-relative d-inline-flex" aria-label="View your shopping cart">
                 <i class="fas fa fa-shopping-cart fa-lg fa-3x"></i>
                 <span class="cart-basket d-flex align-items-center justify-content-center">
                     <?= $n ?>
                 </span>
             </a>
         </div>
-        <!-- <button class="button" onclick="window.location.replace('../config/cart.php')"> Finaliser la commande</button> -->
+        <!-- <button class="button" onclick="window.location.replace('../controller/cart.php')"> Finaliser la commande</button> -->
     </div>
     <style>
         .button {
@@ -290,14 +286,17 @@ else
                 <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
                 quantite: <input style="width: 50%;" type="number" min="1" max="" id="inp" required> <br>
                 Taux de remise: <input style="width: 50%;" type="number" min="0" max="" id="tr" value="0">% <br>
-                <div id="taux"></div> <br>
+                <input type="text" id="sss">
+                <div id="taux">
+                    
+                </div> <br>
                 <input class="cart button" id="<?php echo $r['id'] ?>" type="submit" value="ajouter au panier">
             </div>
         </div>
     </div>
     <script>
         $(function() {
-            $("body").keydown(function(e) {
+            $("#taux").keydown(function(e) {
                 e.preventDefault();
                 var keyCode = e.keyCode;
                 if (keyCode == 112) {
@@ -308,7 +307,9 @@ else
                 }
             });
         });
+
         function cart(q, inp, trr) {
+            document.getElementById('sss').autofocus = true;
             document.getElementById('idg1').style.display = 'block';
             window.x = q;
             window.i = inp;
@@ -330,7 +331,7 @@ else
             var quantite = $(t).val();
             var tr = '#tr'
             var trr = $(tr).val();
-            $.get("../config/cart.php?id=" + window.i + "&q=" + quantite + "&t=" + trr, function(data, status) {
+            $.get("../controller/cart.php?id=" + window.i + "&q=" + quantite + "&t=" + trr, function(data, status) {
                 if (status == 'success') {
                     if (data == 'error') {
                         alert("LE PRODUIT EST DEJA AJOUTE");

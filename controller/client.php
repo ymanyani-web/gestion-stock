@@ -1,11 +1,14 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 if (isset($_POST['nom'])) {
+    $db = mysqli_connect('localhost', 'root', 'root', 'gestion');
     $nom = isset($_POST['nom']) ? trim($_POST['nom']) : "";
+    $sql_u = "SELECT * FROM client WHERE nom='$nom'";
+    $res_u = mysqli_query($db, $sql_u);
+    if (mysqli_num_rows($res_u) > 0) {
+        header('location: ../views/client.php?g=2');
+        exit;
+    }
     $cin = isset($_POST['cin']) ? trim($_POST['cin']) : "";
     $rib = isset($_POST['rib']) ? trim($_POST['rib']) : "";
     $numero = isset($_POST['numero']) ? $_POST['numero'] : "";
@@ -25,5 +28,4 @@ if (isset($_POST['nom'])) {
     else
         header('location: ../admin.php?g=1');
 }
-echo 'erreuur//// veuillez contacter yazid';
-?>
+echo 'erreuur//// veuillez nous contacter';

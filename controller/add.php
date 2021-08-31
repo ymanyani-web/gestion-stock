@@ -7,27 +7,27 @@ try {
 if (isset($_POST['nom'])) {
     $nom = isset($_POST['nom']) ? $_POST['nom'] : "";
     
-    if($_GET['type'] == 1)
+    if($_GET['type'] == 3)
     {
         $req = $bdd->prepare('INSERT INTO categorie_piece(nom) VALUES(:n)');
         $req->execute(array(
             'n' => $nom,
         ));
     }
-    if($_GET['type'] == 2)
+    if($_GET['type'] == 1)
     {
         $req = $bdd->prepare('INSERT INTO marque_vehicule(nom) VALUES(:n)');
         $req->execute(array(
             'n' => $nom,
         ));
     }
-    if($_GET['type'] == 3)
+    if($_GET['type'] == 2)
     {
         $req = $bdd->prepare('INSERT INTO marque_piece(nom) VALUES(:n)');
         $req->execute(array(
             'n' => $nom,
         ));
     }
-    header('location: ../settings.php');
+    header('location: ../admin.php?g=4');
 }
 ?>

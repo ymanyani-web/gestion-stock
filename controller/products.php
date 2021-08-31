@@ -1,11 +1,15 @@
 <?php
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include '../config/database.php';
 if (isset($_POST['ref'])) {
     $ref = isset($_POST['ref']) ? trim($_POST['ref']) : "";
+    $db = mysqli_connect('localhost', 'root', 'root', 'gestion');
+    $sql_u = "SELECT * FROM products WHERE ref='$ref'";
+    $res_u = mysqli_query($db, $sql_u);
+    if (mysqli_num_rows($res_u) > 0)
+    {
+     header('Location: ../views/products.php?g=4');
+     exit;
+    }
     $designation = isset($_POST['designation']) ? trim($_POST['designation']) : "";
     $categorie_pieceId = isset($_POST['categorie_pieceId']) ? $_POST['categorie_pieceId'] : "";
     $marque_pieceId = isset($_POST['marque_pieceId']) ? $_POST['marque_pieceId'] : "";
@@ -38,7 +42,7 @@ if (isset($_POST['ref'])) {
         'd' => $description
     ));
 }
-echo $ref . "<br>";
+/* echo $ref . "<br>";
 echo $designation . "<br>";
 echo $categorie_pieceId . "<br>";
 echo $marque_pieceId . "<br>";
@@ -49,5 +53,5 @@ echo $fournisseurId . "<br>";
 echo $pu_fournisseur . "<br>";
 echo $pu . "<br>";
 echo $remise . "<br>";
-echo $description . "<br>";
+echo $description . "<br>"; */
 header('Location: ../views/products.php?g=1');

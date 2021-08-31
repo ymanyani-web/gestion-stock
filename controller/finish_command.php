@@ -4,12 +4,7 @@ if (isset($_POST['user']) && isset($_POST['client'])){
     $_SESSION['seller'] = $_POST['user'];
     $_SESSION['client'] = $_POST['client'];
 }
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=gestion;charset=utf8', 'root', 'root');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
-
+include '../config/database.php';
 $products_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
 $products = array();
 // If there are products in cart
