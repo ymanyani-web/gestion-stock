@@ -21,11 +21,11 @@ if(isset($_POST['id_f']) && isset($_POST['m_rg']) && isset($_POST['id_c']) && is
 $list1 = $pdo->query("SELECT * FROM client");
 $idf = $_GET['id_f'];
 if (!empty($idf)) {
-    $list2 = $pdo->query("SELECT * FROM operation_tt WHERE id_facture = $idf");
-    $reponse1 = $pdo->query("SELECT SUM(montant_d) AS `montant_d` FROM reglements WHERE id_facture = $idf");
+    $list2 = $pdo->query("SELECT * FROM operation_tt WHERE id_facture = '$idf'");
+    $reponse1 = $pdo->query("SELECT SUM(montant_d) AS `montant_d` FROM reglements WHERE id_facture = '$idf'");
     $donnes1 = $reponse1->fetch();
     $total_d = $donnes1['montant_d'];
-    $reponse2 = $pdo->query("SELECT SUM(total) AS `tt` FROM operation_tt WHERE id_facture = $idf");
+    $reponse2 = $pdo->query("SELECT SUM(total) AS `tt` FROM operation_tt WHERE id_facture = '$idf'");
     $donnes2 = $reponse2->fetch();
     $total = $donnes2['tt'];
     $credit = $total - $total_d;
@@ -33,7 +33,7 @@ if (!empty($idf)) {
     $idcl = $l2['id_client'];
     $ccc = $pdo->query("SELECT nom, numero FROM client WHERE id = $idcl");
     $donnes3 = $ccc->fetch();
-    $list3 = $pdo->query("SELECT * FROM reglements WHERE id_facture = $idf");
+    $list3 = $pdo->query("SELECT * FROM reglements WHERE id_facture = '$idf'");
 
     $credit = number_format($credit, 2, '.', '');
 }

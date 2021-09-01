@@ -1,16 +1,9 @@
 <?php
 include '../config/database.php';
-if (!empty($_POST['nom'])) {
-    $var1 = $_POST['nom'];
+$var1 = !empty($_POST['nom']) ? $_POST['nom'] : "%";
+$var2 = !empty($_POST['ville']) ? $_POST['ville'] : "%";
 
-    $reponse1 = $bdd->query("SELECT * FROM  fournisseur WHERE `nom` = '$var1' ");
-}
-if (!empty($_POST['ville'])) {
-    $var2 = $_POST['ville'];
-
-    /* $reponse1 = $bdd->query("SELECT * FROM  products WHERE `ref` LIKE '$var1' AND designation LIKE '$var2' "); */
-    $reponse1 = $bdd->query("SELECT * FROM  fournisseur WHERE `ville` = '$var2' ");
-}
+$reponse1 = $bdd->query("SELECT * FROM  fournisseur WHERE `nom` LIKE '$var1' AND ville LIKE '$var2' ");
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +57,7 @@ if (!empty($_POST['ville'])) {
     </script>
 </head>
 <?php
-if (isset($_GET['g']) && $_GET['g'] == '1') {
+if (isset($_GET['g'])) {
     echo "<body onload='document.getElementById(\"idg1\").style.display=\"block\"' style='width:auto;'>";
 } else
     echo "<body>";
@@ -81,14 +74,6 @@ if (isset($_GET['g']) && $_GET['g'] == '1') {
             <div class="navbar-nav ml-auto">
                 <a href="../index.php" class="nav-item nav-link ">Accueil</a>
                 <a href="../admin.php" class="nav-item nav-link active">Administrateur</a>
-                <!--                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="single.html" class="dropdown-item">Blog Detail</a>
-                        </div>
-                    </div>
--->
             </div>
         </div>
     </div>
@@ -117,13 +102,13 @@ if (isset($_GET['g']) && $_GET['g'] == '1') {
 <div class="booking">
     <div class="booking-form">
         <center>
-            <form action="" method="post">
+            <form action="fournisseur.php" method="post">
                 filtrer par: <br>
                 <label for="ref">nom</label>
                 <input type="text" name="nom" id="nom">
                 <label for="designation">ville</label>
-                <input type="text" name="ville" id="cin">
-                <span style=""><input type="submit" value="chercher"></span>
+                <input type="text" name="ville">
+                <input type="submit" class="button" value="chercher">
             </form>
         </center>
         <div id="add_new">
@@ -150,7 +135,7 @@ if (isset($_GET['g']) && $_GET['g'] == '1') {
                 <?php
                 foreach ($reponse1 as $r) :
                 ?>
-                    <tr class='' data-href='product-details.php?id=<?php echo $r['id'] ?>'>
+                    <tr class='clickable-row' data-href='../controller/fournisseur-modifier.php?id=<?php echo $r['id'] ?>'>
                         <td> <?php echo $r['nom'] ?> </td>
                         <td> <?php echo $r['telephone'] ?> </td>
                         <td> <?php echo $r['adresse'] ?> </td>
@@ -171,7 +156,7 @@ if (isset($_GET['g']) && $_GET['g'] == '1') {
 </script>
 <style>
     tr:hover {
-        background: red;
+        background: #a9dfbf;
     }
 
     .taaaable {
@@ -218,7 +203,13 @@ if (isset($_GET['g']) && $_GET['g'] == '1') {
         <div class="imgcontainer">
             <span onclick="document.getElementById('idg1').style.display='none'" class="close" title="Close Modal">&times;</span>
             <img src="../img/error.png" alt="Avatar" class="avatar">
-            <h3>le produit a ete ajoute avec succes</h3>
+            <?php if (isset($_GET['g']) && $_GET['g'] == 1)
+                echo "<h3>le fournisseur a ete ajoute avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == 2)
+                echo "<h3>le fournisseur a ete modifie avec succes</h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == 3)
+                echo "<h3>le fournisseur a ete supprime avec succes</h3>";
+            ?>
         </div>
     </form>
 </div>

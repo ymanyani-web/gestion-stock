@@ -1,8 +1,8 @@
 <?php
 include '../config/database.php';
 $list1 = $pdo->query("SELECT * FROM client");
-if (isset($_POST['idcl'])) {
-    $idcl = $_POST['idcl'];
+if (isset($_POST['idcl']) || !empty($_GET['id'])){
+    $idcl = !empty($_POST['idcl']) ? $_POST['idcl'] : $_GET['id'] ;
     $list2 = $pdo->query("SELECT * FROM operation_tt WHERE id_client = $idcl");
     $reponse1 = $pdo->query("SELECT SUM(montant_d) AS `montant_d` FROM reglements WHERE id_client = $idcl");
     $donnes1 = $reponse1->fetch();
@@ -85,7 +85,7 @@ if (isset($_POST['idcl'])) {
     <div class="booking" style="margin-bottom: 0px;">
         <div class="booking-form">
             <center>
-                <form action="#" method="post">
+                <form action="regler_facture.php" method="post">
                     <select name="idcl" id="" class="butto">
                         <option value=""> Selectionner un client
                             <?php foreach ($list1 as $l1) {
@@ -136,7 +136,7 @@ if (isset($_POST['idcl'])) {
             $ttd = $r9->fetch();
             ?>
                 <tr <?php if (($l2['total'] - $ttd['md']) == 0) echo "class='clickable-row-g clickable-row'";
-                    else echo "class='clickable-row-r clickable-row'";  ?> onclick=" window.x = <?php echo $l2['id_facture'] ?> ">
+                    else echo "class='clickable-row-r clickable-row'";  ?> onclick=" window.x = '<?php echo $l2['id_facture'] ?>' ">
                     <td><?= $l2['id_facture'] ?></td>
                     <td><?= $l2['total'] ?></td>
                     <td><?php

@@ -9,8 +9,8 @@ else {
     exit;
 }
 
-$list1 = $pdo->query("SELECT * FROM operation WHERE numero_facture=$n");
-$list2 = $pdo->query("SELECT * FROM operation WHERE numero_facture=$n LIMIT 1");
+$list1 = $pdo->query("SELECT * FROM operation WHERE numero_facture='$n'");
+$list2 = $pdo->query("SELECT * FROM operation WHERE numero_facture='$n' LIMIT 1");
 
 foreach ($list2 as $l2) {
     $id_seller = $l2['sellerId'];

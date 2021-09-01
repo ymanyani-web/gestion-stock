@@ -129,6 +129,15 @@ $list1 = $bdd->query("SELECT * FROM client");
                         </div>
                     </div>
                 </a>
+                <a onclick="window.location.replace('views/etat.php')">
+                    <div class="col-md-4" onclick="window.location.replace('views/etat.php')">
+                        <div class="food-item">
+                            <i class="fas fa-file-invoice"></i>
+                            <h5>Etat</h5>
+                            <a href=""></a>
+                        </div>
+                    </div>
+                </a>
                 <a onclick="document.getElementById('id01').style.display='block'">
                     <div class="col-md-4" onclick="document.getElementById('id01').style.display='block'">
                         <div class="food-item">
@@ -163,7 +172,7 @@ $list1 = $bdd->query("SELECT * FROM client");
                 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                 <center>
                     <label for="nom">numero de facture</label> <br>
-                    <input type="number" name="n" id="n" required> <br> <br>
+                    <input type="text" name="n" id="n" required> <br> <br>
                     <input type="submit" value="envoyer" class="button" onclick="document.getElementById('id01').style.display='none';">
                 </center>
             </div>

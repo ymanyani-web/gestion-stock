@@ -313,6 +313,8 @@ if (!empty($_GET['g'])) {
                 echo "<input type='checkbox' name='marque_vehiculeId[]' value='$id'>$nom <br>";
             endforeach; */
             ?><br>
+            <label for="casier">Seuil minimum</label>
+            <input type="number" name="seuil" id="seuil"> <br>
             <label for="casier">casier</label>
             <input type="text" name="casier" id="casier"> <br>
             <label for="image">image</label>

@@ -128,7 +128,7 @@ if ($products_in_cart) {
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2>B.C</h2>
+                    <h2>Panier</h2>
                 </div>
                 <div class="col-12">
                     <a href=""></a>
@@ -143,13 +143,13 @@ if ($products_in_cart) {
         <table style="width: 100%;">
             <thead>
                 <tr>
-                    <td colspan="">Product</td>
-                    <td>Price</td>
+                    <td colspan="">Designation</td>
+                    <td>prix</td>
                     <td>casier</td>
-                    <td>Quantity</td>
-                    <td>taux de remise</td>
+                    <td>Quantite</td>
+                    <td>Taux de remise</td>
                     <td>Total</td>
-                    <td>remove</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -173,7 +173,7 @@ if ($products_in_cart) {
                             </td>
                             <td class="price"><?= ($product['pu'] * $products_in_cart[$product['id']][0]) - ($product['pu'] * $products_in_cart[$product['id']][0] * $products_in_cart[$product['id']][1] * 0.01) ?> Dh</td>
                             <td>
-                                <a href="cart.php?remove=<?= $product['id'] ?>" class="remove">Remove</a>
+                                <a href="cart.php?remove=<?= $product['id'] ?>" class="remove">Supprimer</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -185,9 +185,9 @@ if ($products_in_cart) {
             <span class="price"><?= $subtotal ?> Dh</span>
         </div>
         <div class="buttons">
-            <input type="submit" class="button" value="Update" name="update">
+            <input type="submit" class="button" value="Mise à jour" name="update" style=" position:fixed; left: 10px; bottom:10px;">
     </form>
-    <button type="button" onclick="document.getElementById('idg1').style.display = 'block';" class="button" style=" position:absolute; right: 10px;"> terminer </button>
+    <button type="button" onclick="document.getElementById('idg1').style.display = 'block';" class="button" style=" position:fixed; right: 10px; bottom:10px;"> Terminer </button>
 
 
 

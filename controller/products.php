@@ -22,11 +22,12 @@ if (isset($_POST['ref'])) {
     $pu = isset($_POST['pu']) ? $_POST['pu'] : "";
     $remise = isset($_POST['remise']) ? $_POST['remise'] : "";
     $description = isset($_POST['description']) ? $_POST['description'] : "";
+    $seuil = isset($_POST['seuil']) ? $_POST['seuil'] : "";
 
     $fournisseurId = isset($_POST['fournisseurId']) ? $_POST['fournisseurId'] : "";
     $pu_fournisseur = isset($_POST['pu_f']) ? $_POST['pu_f'] : "";
 
-    $req = $bdd->prepare('INSERT INTO products(`ref`, `designation`, `categorie_pieceId`, `marque_pieceId`, `marque_vehiculeId`, `image`, `casier`, `fournisseurId`, `pu_fournisseur`, `pu`, `taux_remise`, `description`) VALUES(:r, :ds, :ci, :mpi, :mvi, :i, :c, :fi, :pf, :p, :tr, :d)');
+    $req = $bdd->prepare('INSERT INTO products(`ref`, `designation`, `categorie_pieceId`, `marque_pieceId`, `marque_vehiculeId`, `image`, `casier`, `fournisseurId`, `pu_fournisseur`, `pu`, `taux_remise`, `description`, `seuil-min`) VALUES(:r, :ds, :ci, :mpi, :mvi, :i, :c, :fi, :pf, :p, :tr, :d, :s)');
     $req->execute(array(
         'r' => $ref,
         'ds' => $designation,
@@ -39,7 +40,8 @@ if (isset($_POST['ref'])) {
         'pf' => $pu_fournisseur,
         'p' => $pu,
         'tr' => $remise,
-        'd' => $description
+        'd' => $description,
+        's' => $seuil
     ));
 }
 /* echo $ref . "<br>";

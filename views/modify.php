@@ -17,9 +17,10 @@ if (isset($_POST['update'])) {
     $casier = isset($_POST['casier']) ? $_POST['casier'] : "";
     $pu = isset($_POST['pu']) ? $_POST['pu'] : "";
     $remise = isset($_POST['tr']) ? $_POST['tr'] : "";
+    $seuil = isset($_POST['seuil']) ? $_POST['seuil'] : "";
     $fournisseurId = isset($_POST['fournisseur']) ? $_POST['fournisseur'] : "";
 
-    $req = $bdd->prepare('UPDATE products SET ref=:r, designation=:d, categorie_pieceId=:ci, marque_pieceId=:mi, marque_vehiculeId=:mv, casier=:ca, pu=:pu, taux_remise=:tr, fournisseurId=:f WHERE id=:i ');
+    $req = $bdd->prepare('UPDATE products SET ref=:r, designation=:d, categorie_pieceId=:ci, marque_pieceId=:mi, marque_vehiculeId=:mv, casier=:ca, pu=:pu, taux_remise=:tr, fournisseurId=:f, `seuil-min`=:s WHERE id=:i ');
     $req->execute(array(
         'r' => $ref,
         'd' => $designation,
@@ -30,7 +31,8 @@ if (isset($_POST['update'])) {
         'pu' => $pu,
         'tr' => $remise,
         'f' => $fournisseurId,
-        'i' => $id
+        'i' => $id,
+        's' => $seuil
     ));
     header('Location: products.php?g=2');
 }
@@ -120,19 +122,7 @@ if (isset($_POST['delete'])) {
                 <div>
                     <?php if (isset($_GET['id'])) { ?>
                         <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
-                        <table class="taaaable table-bordered" id="table_abc">
-                            <thead>
-                                <th>reference</th>
-                                <th>designation</th>
-                                <th>categorie piece</th>
-                                <th>marque piece</th>
-                                <th>marque vehicule</th>
-                                <th>casier</th>
-                                <th>fournisseur</th>
-                                <th>prix unitaire</th>
-                                <th>Taux de remise</th>
-                                <!-- <th>quantite</th> -->
-                            </thead>
+                        <table class="taaaable table-bordered" id="table_abc" style="width: 50%;">
                             <?php
                             foreach ($reponse1 as $r) :
                                 $fournisseur = $r['fournisseurId'];
@@ -144,10 +134,16 @@ if (isset($_POST['delete'])) {
                                 $dlist3 = $bdd->query("SELECT * FROM marque_piece WHERE id=$marque_piece");
                                 $dlist4 = $bdd->query("SELECT * FROM marque_vehicule WHERE id=$marque_vehicule");
                             ?>
-                                <tr <?php if ($r['quantite'] >= 1) echo "class='clickable-row-g'";
-                                    else  echo "class='clickable-row-r'"; ?> data-href='product-details.php?id=<?php echo $r['id'] ?>'>
+                                <tr>
+                                    <th>reference</th>
                                     <td> <input type="text" value="<?php echo $r['ref'] ?>" name="ref"> </td>
+                                </tr>
+                                <tr>
+                                    <th>designation</th>
                                     <td><input type="text" value="<?php echo $r['designation'] ?>" name="des"> </td>
+                                </tr>
+                                <tr>
+                                    <th>categorie piece</th>
                                     <td>
                                         <select name="categorie_pieceId">
                                             <?php
@@ -165,6 +161,9 @@ if (isset($_POST['delete'])) {
                                             ?>
                                         </select>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th>marque piece</th>
                                     <td>
                                         <select name="marque_pieceId">
                                             <?php
@@ -182,6 +181,9 @@ if (isset($_POST['delete'])) {
                                             ?>
                                         </select>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th>marque vehicule</th>
                                     <td>
                                         <select name="marque_vehiculeId">
                                             <?php
@@ -198,9 +200,14 @@ if (isset($_POST['delete'])) {
                                             }
                                             ?>
                                         </select>
-
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th>casier</th>
                                     <td> <input type="text" value="<?php echo $r['casier'] ?>" name="casier"> </td>
+                                </tr>
+                                <tr>
+                                    <th>fournisseur</th>
                                     <td>
                                         <select name="fournisseur">
                                             <?php
@@ -218,8 +225,18 @@ if (isset($_POST['delete'])) {
                                             ?>
                                         </select>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th>prix unitaire</th>
                                     <td> <input type="number" value="<?php echo $r['pu'] ?>" name="pu"> </td>
+                                </tr>
+                                <tr>
+                                    <th>Taux de remise</th>
                                     <td> <input type="number" value="<?php echo $r['taux_remise'] ?>" name="tr"> </td>
+                                </tr>
+                                <tr>
+                                    <th>Seuil min</th>
+                                    <td> <input type="number" value="<?php echo $r['seuil-min'] ?>" name="seuil"> </td>
                                 </tr>
                             <?php endforeach;  ?>
                         </table>
@@ -228,7 +245,7 @@ if (isset($_POST['delete'])) {
             </center>
         </div>
         <input class="button" style="background-color: red; position: fixed; left: 10px; bottom: 10px;" type="submit" value="supprimer" name="delete">
-        <input class="button" style="position: fixed; right: 10px; bottom: 10px;" type="submit" value="Mis a jour" name="update">
+        <input class="button" style="position: fixed; right: 10px; bottom: 10px;" type="submit" value="Mise à jour" name="update">
     </form>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

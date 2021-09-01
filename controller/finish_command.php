@@ -14,11 +14,14 @@ if ($products_in_cart) {
     $stmt->execute(array_keys($products_in_cart));
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-$sql = "SELECT MAX(numero_facture) FROM operation";
-$req1 = $pdo->prepare('SELECT MAX(numero_facture) FROM operation LIMIT 1');
+/* $sql = "SELECT MAX(numero_facture) FROM operation"; */
+$req1 = $pdo->prepare('SELECT * FROM operation ORDER BY ID DESC LIMIT 1');
 $req1->execute();
 $nf = $req1->fetch();
-$num_facture = $nf[0] + 1;
+$num_facture = $nf['numero_facture'];
+
+$num_facture = substr($num_facture, 5);
+$nff = date("Y") . '-' . ($num_facture + 1);
 $_SESSION['facture'] = $num_facture;
 $total = 0;
 
@@ -32,7 +35,7 @@ foreach ($products as $product) :
     echo $m;
     $req2 = $pdo->prepare('INSERT INTO operation(numero_facture, clientId, idProduit, quantite, montant, sellerId) VALUES(:n, :c, :i, :q, :m, :s)');
     $req2->execute(array(
-        'n' => $num_facture,
+        'n' => $nff,
         'c' => $client,
         'i' => $idd,
         'q' => $q,
@@ -50,18 +53,18 @@ foreach ($products as $product) :
 $mm = $_POST['montant'];
 $req4 = $pdo->prepare('INSERT INTO operation_tt(id_facture, id_client, total) VALUES(:iff, :ic, :t)');
 $req4->execute(array(
-    'iff' => $num_facture,
+    'iff' => $nff,
     'ic' => $client,
     't' => $total,
 ));
 $req5 = $pdo->prepare('INSERT INTO reglements(id_facture, id_client, montant_d) VALUES(:iff, :ic, :m)');
 $req5->execute(array(
-    'iff' => $num_facture,
+    'iff' => $nff,
     'ic' => $client,
     'm' => $mm,
 ));
 session_destroy();
-header('Location: ../index.php?fn='.$num_facture.'');
+header('Location: ../index.php?fn='.$nff.'');
 
 ?>
 
