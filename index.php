@@ -120,6 +120,15 @@ $list1 = $bdd->query("SELECT * FROM client");
                         </div>
                     </div>
                 </a>
+                <a onclick="window.location.replace('views/etat.php')">
+                    <div class="col-md-4" onclick="window.location.replace('views/etat.php')">
+                        <div class="food-item">
+                            <i class="fas fa-file-invoice"></i>
+                            <h5>État</h5>
+                            <a href=""></a>
+                        </div>
+                    </div>
+                </a>
                 <a onclick="document.getElementById('id02').style.display='block'">
                     <div class="col-md-4" onclick="document.getElementById('id02').style.display='block'">
                         <div class="food-item">
@@ -129,15 +138,7 @@ $list1 = $bdd->query("SELECT * FROM client");
                         </div>
                     </div>
                 </a>
-                <a onclick="window.location.replace('views/etat.php')">
-                    <div class="col-md-4" onclick="window.location.replace('views/etat.php')">
-                        <div class="food-item">
-                            <i class="fas fa-file-invoice"></i>
-                            <h5>Etat</h5>
-                            <a href=""></a>
-                        </div>
-                    </div>
-                </a>
+
                 <a onclick="document.getElementById('id01').style.display='block'">
                     <div class="col-md-4" onclick="document.getElementById('id01').style.display='block'">
                         <div class="food-item">

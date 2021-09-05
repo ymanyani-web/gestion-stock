@@ -498,7 +498,7 @@ a:focus {
 .page-header1 {
     position: relative;
     margin-bottom: 45px;
-    padding: 150px 0 90px 0;
+    padding: 150px 0 60px 0;
     text-align: center;
     background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(../img/page-header.png);
     background-position: center;
@@ -680,7 +680,7 @@ a:focus {
 .food {
     position: relative;
     width: 100%;
-    padding: 90px 0 60px 0;
+    padding: 10px 0 10px 0;
     margin: 45px 0;
     background: rgba(0, 0, 0, .04);
 }

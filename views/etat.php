@@ -2,7 +2,6 @@
 include '../config/database.php';
 $list1 = $bdd->query("SELECT * FROM products WHERE quantite < `seuil-min`");
 $list2 = $bdd->query("SELECT * FROM client");
-$list3 = $bdd->query("SELECT * FROM ");
 $list4 = $bdd->query("SELECT * FROM ");
 $list5 = $bdd->query("SELECT * FROM ");
 
@@ -133,7 +132,7 @@ $credit_t = 0;
                                     <td> <span style="color: red;">- <?= $credit ?></span></td>
                                 </tr>
                             <?php
-                            $credit_t = $credit_t + $credit;
+                                $credit_t = $credit_t + $credit;
                             }
                             ?>
                         <?php endforeach; ?>
@@ -162,9 +161,47 @@ $credit_t = 0;
 
             <!-- start onglet inventaire -->
             <div class="contenu_onglet" id="contenu_onglet_inventaire">
-                <main class="grid">
-                    test2
-                </main>
+                <div class="">
+                    <?php
+                    $array = array("None", "Janvier", "Fevrier", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "decembre");
+                    for ($m = 1; $m <= 12; $m++) {
+                        if ($m <= 9)
+                            $m = '0' . $m;
+                        $date = date("Y") . '-' . $m;
+                        $start = $date . "-01 00:00:00";
+                        $end = $date . "-31 23:59:59";
+                        /* echo $array[$m];
+                        echo $start . "--";
+                        echo $end . "<br>"; */
+                        $list3 = $bdd->query("SELECT operation.numero_facture AS idf, client.nom AS nompr, products.designation AS prdct, operation.quantite, operation.montant, operation.date
+                        FROM operation, client, products
+                        WHERE operation.clientId = client.id AND operation.idProduit = products.id AND operation.date<='$end' AND operation.date>='$start'");
+                    ?>
+                    <h2><?= $array[(int)$m]?></h2>
+                        <table class="taaaable table-bordered" id="table_abc" style="width: 80%; margin: auto; margin-top: 20px;">
+                            <tr>
+                                <th>numero Facture</th>
+                                <th>client</th>
+                                <th>designation</th>
+                                <th>quantite</th>
+                                <th>montant</th>
+                                <th>date</th>
+                            </tr>
+                            <?php foreach ($list3 as $l3) : ?>
+                                <tr>
+                                    <td><?= $l3['idf'] ?></td>
+                                    <td><?= $l3['nompr'] ?></td>
+                                    <td><?= $l3['prdct'] ?></td>
+                                    <td><?= $l3['quantite'] ?></td>
+                                    <td><?= $l3['montant'] ?></td>
+                                    <td><?= substr($l3['date'], 0, -3) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    <?php
+                    }
+                    ?>
+                </div>
             </div>
             <!-- end onglet inventaire -->
 
@@ -231,7 +268,6 @@ $credit_t = 0;
             padding: 5px;
             display: none;
             width: 100%;
-            height: 100%;
         }
 
         .grid {
