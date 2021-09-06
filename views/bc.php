@@ -47,8 +47,8 @@ $subtotal = 0;
     <div id="all">
         <header>
             <div id="second_header">
-                <div class="sous_header1"><br><br><span style="font-size:100px">Facture</span></div>
-                <div class="sous_header2"><br><br><span style="font-size:30px">Union pieces agricoles</span></div>
+                <div class="sous_header1"><br><br><span style="font-size:120px">Bon de commande</span></div>
+                <div class="sous_header2"><br><br><span style="font-size:30px; margin-right: 10px;">Union pieces agricoles</span></div>
             </div>
         </header> <br>
         Facture Nº:<?= $_POST['n'] ?> <?= $_GET['n'] ?> <br>
@@ -164,15 +164,15 @@ $subtotal = 0;
     }
 
     .sous_header1 {
-        text-align: center;
+        text-align: left;
         vertical-align: middle;
         width: 100%;
         height: 60%;
-
     }
 
     .sous_header2 {
-        text-align: center;
+        text-align: right;
+        margin-right: 10px;
         width: 100%;
         height: 40%;
     }

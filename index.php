@@ -68,13 +68,6 @@ $list1 = $bdd->query("SELECT * FROM client");
                 <div class="navbar-nav ml-auto">
                     <a href="#" class="nav-item nav-link active">Accueil</a>
                     <a href="admin.php" class="nav-item nav-link ">Administrateur</a>
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="single.html" class="dropdown-item">Blog Detail</a>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -124,7 +117,7 @@ $list1 = $bdd->query("SELECT * FROM client");
                     <div class="col-md-4" onclick="window.location.replace('views/etat.php')">
                         <div class="food-item">
                             <i class="fas fa-file-invoice"></i>
-                            <h5>État</h5>
+                            <h3>État</h3>
                             <a href=""></a>
                         </div>
                     </div>
@@ -133,7 +126,7 @@ $list1 = $bdd->query("SELECT * FROM client");
                     <div class="col-md-4" onclick="document.getElementById('id02').style.display='block'">
                         <div class="food-item">
                             <i class="fas fa-money-check-alt"></i>
-                            <h5>Regler une facture</h5>
+                            <h3>Regler une facture</h3>
                             <a href=""></a>
                         </div>
                     </div>
@@ -143,7 +136,16 @@ $list1 = $bdd->query("SELECT * FROM client");
                     <div class="col-md-4" onclick="document.getElementById('id01').style.display='block'">
                         <div class="food-item">
                             <i class="fas fa-file-invoice"></i>
-                            <h5>Generateur de facture</h5>
+                            <h3>Generateur de facture</h3>
+                            <a href=""></a>
+                        </div>
+                    </div>
+                </a>
+                <a onclick="window.location.replace('views/noir.php')">
+                    <div class="col-md-4" onclick="window.location.replace('views/noir.php')">
+                        <div class="food-item">
+                            <i class="fas fa-file-invoice"></i>
+                            <h3>Noir</h3>
                             <a href=""></a>
                         </div>
                     </div>

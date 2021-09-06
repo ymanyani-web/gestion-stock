@@ -2,11 +2,10 @@
 include '../config/database.php';
 $list1 = $bdd->query("SELECT * FROM products WHERE quantite < `seuil-min`");
 $list2 = $bdd->query("SELECT * FROM client");
-$list4 = $bdd->query("SELECT * FROM ");
 $list5 = $bdd->query("SELECT * FROM ");
 
-
 $credit_t = 0;
+$client_classment = array();
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +61,6 @@ $credit_t = 0;
 
 
     <script type="text/javascript">
-        //<!--
         function change_onglet(name) {
             document.getElementById('onglet_' + anc_onglet).className = 'onglet_0 onglet';
             document.getElementById('onglet_' + name).className = 'onglet_1 onglet';
@@ -70,7 +68,6 @@ $credit_t = 0;
             document.getElementById('contenu_onglet_' + name).style.display = 'block';
             anc_onglet = name;
         }
-        //-->
     </script>
 
 
@@ -81,9 +78,9 @@ $credit_t = 0;
     <div class="systeme_onglets" style="height: 100%">
         <div class="onglets">
             <span class="onglet_0 onglet" id="onglet_rupture" onclick="javascript:change_onglet('rupture');"> Rupture de stock </span>
-            <span class="onglet_0 onglet" id="onglet_suivi" onclick="javascript:change_onglet('suivi');"> suivi des reglements </span>
-            <span class="onglet_0 onglet" id="onglet_inventaire" onclick="javascript:change_onglet('inventaire');"> inventaire </span>
-            <span class="onglet_0 onglet" id="onglet_classement" onclick="javascript:change_onglet('classement');"> classement </span>
+            <span class="onglet_0 onglet" id="onglet_suivi" onclick="javascript:change_onglet('suivi');"> Suivi des reglements </span>
+            <span class="onglet_0 onglet" id="onglet_inventaire" onclick="javascript:change_onglet('inventaire');"> Inventaire </span>
+            <span class="onglet_0 onglet" id="onglet_classement" onclick="javascript:change_onglet('classement');"> Classement des clients par C.A </span>
             <span class="onglet_0 onglet" id="onglet_CA" onclick="javascript:change_onglet('CA');"> CA </span>
         </div>
         <div class="contenu_onglets" style="height: 100%">
@@ -161,7 +158,7 @@ $credit_t = 0;
 
             <!-- start onglet inventaire -->
             <div class="contenu_onglet" id="contenu_onglet_inventaire">
-                <div class="">
+                <main class="">
                     <?php
                     $array = array("None", "Janvier", "Fevrier", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "decembre");
                     for ($m = 1; $m <= 12; $m++) {
@@ -177,7 +174,7 @@ $credit_t = 0;
                         FROM operation, client, products
                         WHERE operation.clientId = client.id AND operation.idProduit = products.id AND operation.date<='$end' AND operation.date>='$start'");
                     ?>
-                    <h2><?= $array[(int)$m]?></h2>
+                        <h2><?= $array[(int)$m] ?></h2>
                         <table class="taaaable table-bordered" id="table_abc" style="width: 80%; margin: auto; margin-top: 20px;">
                             <tr>
                                 <th>numero Facture</th>
@@ -201,7 +198,7 @@ $credit_t = 0;
                     <?php
                     }
                     ?>
-                </div>
+                </main>
             </div>
             <!-- end onglet inventaire -->
 
@@ -209,8 +206,31 @@ $credit_t = 0;
 
             <!-- start onglet classement -->
             <div class="contenu_onglet" id="contenu_onglet_classement">
-                <main class="grid">
-                    test4
+                <main class="">
+                    <table class="taaaable table-bordered " id="table_abc" style="width: 80%; margin: auto; margin-top: 20px;">
+                        <tr>
+                            <th>nom client</th>
+                            <th>chiffre d'affaire</th>
+                        </tr>
+                        <?php
+                        $list4 = $bdd->query("SELECT * FROM client");
+                        foreach ($list4 as $l4) {
+                            $cid = $l4['id'];
+                            $ll4 = $bdd->query("SELECT SUM(operation_tt.total) AS somme FROM operation_tt WHERE id_client =  $cid");
+                            $ll44 = $ll4->fetch();
+                            $client_classment[$l4['nom']] = $ll44['somme'];
+                        }
+                        arsort($client_classment);
+                        foreach ($client_classment as $key => $val) :
+                            /* if($key == "Invite")
+                        continue; */
+                        ?>
+                            <tr class='clickable-row-g'>
+                                <td><?= $key ?></td>
+                                <td><?= $val ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
                 </main>
             </div>
             <!-- end onglet classement -->
@@ -219,7 +239,7 @@ $credit_t = 0;
             <!-- start onglet CA -->
             <div class="contenu_onglet" id="contenu_onglet_CA">
                 <main class="grid">
-                    test5
+                    
                 </main>
             </div>
             <!-- End onglet CA -->

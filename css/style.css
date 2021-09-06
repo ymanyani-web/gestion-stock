@@ -2,7 +2,9 @@
 /********* General CSS *********/
 /*******************************/
 
-
+.clickable-row-g:hover {
+    background: #a9dfbf;
+}
 
 .button {
     background-color: #719a0a;
@@ -681,7 +683,7 @@ a:focus {
     position: relative;
     width: 100%;
     padding: 10px 0 10px 0;
-    margin: 45px 0;
+    margin: 5px 0;
     background: rgba(0, 0, 0, .04);
 }
 
