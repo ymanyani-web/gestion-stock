@@ -13,17 +13,17 @@ if (isset($_GET['id'])) {
     $quantity = isset($_GET['q']) ? $_GET['q'] : 1;
     $tr = isset($_GET['t']) ? $_GET['t'] : 1;
     if ($product && $quantity > 0) {
-        if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
-            if (array_key_exists($id, $_SESSION['cart'])) {
+        if (isset($_SESSION['cartt']) && is_array($_SESSION['cartt'])) {
+            if (array_key_exists($id, $_SESSION['cartt'])) {
                 //$_SESSION['cart'][$id][0] += $quantity;
                 echo "error";
                 exit;
             } else {
-                $_SESSION['cart'][$id][0] = $quantity;
-                $_SESSION['cart'][$id][1] = $tr;
+                $_SESSION['cartt'][$id][0] = $quantity;
+                $_SESSION['cartt'][$id][1] = $tr;
             }
         } else {
-            $_SESSION['cart'] = array($id => array($quantity, $tr));
+            $_SESSION['cartt'] = array($id => array($quantity, $tr));
         }
     }
     echo "good";
@@ -32,34 +32,34 @@ if (isset($_GET['id'])) {
 }
 
 
-if (isset($_GET['remove']) && is_numeric($_GET['remove']) && isset($_SESSION['cart']) && isset($_SESSION['cart'][$_GET['remove']])) {
-    unset($_SESSION['cart'][$_GET['remove']]);
+if (isset($_GET['remove']) && is_numeric($_GET['remove']) && isset($_SESSION['cartt']) && isset($_SESSION['cartt'][$_GET['remove']])) {
+    unset($_SESSION['cartt'][$_GET['remove']]);
 }
 
-if (isset($_POST['update']) && isset($_SESSION['cart'])) {
+if (isset($_POST['update']) && isset($_SESSION['cartt'])) {
     foreach ($_POST as $k => $v) {
         if (strpos($k, 'quantity') !== false && is_numeric($v)) {
             $id = str_replace('quantity-', '', $k);
             $quantity = (int)$v;
-            if (is_numeric($id) && isset($_SESSION['cart'][$id]) && $quantity > 0) {
-                $_SESSION['cart'][$id][0] = $quantity;
+            if (is_numeric($id) && isset($_SESSION['cartt'][$id]) && $quantity > 0) {
+                $_SESSION['cartt'][$id][0] = $quantity;
             }
         }
         if (strpos($k, 'tr') !== false && is_numeric($v)) {
             $id = str_replace('tr-', '', $k);
             $tr = (float)$v;
 
-            if (is_numeric($id) && isset($_SESSION['cart'][$id]) && $tr >= 0) {
-                $_SESSION['cart'][$id][1] = $tr;
+            if (is_numeric($id) && isset($_SESSION['cartt'][$id]) && $tr >= 0) {
+                $_SESSION['cartt'][$id][1] = $tr;
             }
         }
     }
-    header('location: cart.php');
+    header('location: cart0.php');
     exit;
 }
 
 
-$products_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
+$products_in_cart = isset($_SESSION['cartt']) ? $_SESSION['cartt'] : array();
 $products = array();
 $subtotal = 0.00;
 // If there are products in cart
@@ -180,7 +180,7 @@ if ($products_in_cart) {
                               <input id="mm-<?= $product['id'] ?>" class="dd" step="0.1" type="number" value="<?= $totaal ?>" > Dh
                             </td>
                             <td>
-                                <a href="cart.php?remove=<?= $product['id'] ?>" class="remove">Supprimer</a>
+                                <a href="cart0.php?remove=<?= $product['id'] ?>" class="remove">Supprimer</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

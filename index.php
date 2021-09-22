@@ -74,7 +74,6 @@ $list1 = $bdd->query("SELECT * FROM client");
     </div>
     <!-- Nav Bar End -->
 
-
     <!-- Page Header Start -->
     <div class="page-header1 mb-0">
         <div class="container">
@@ -141,11 +140,11 @@ $list1 = $bdd->query("SELECT * FROM client");
                         </div>
                     </div>
                 </a>
-                <a onclick="window.location.replace('views/noir.php')">
-                    <div class="col-md-4" onclick="window.location.replace('views/noir.php')">
+                <a onclick="window.location.replace('views/sf.php')">
+                    <div class="col-md-4" onclick="window.location.replace('views/sf.php')">
                         <div class="food-item">
                             <i class="fas fa-file-invoice"></i>
-                            <h3>Noir</h3>
+                            <h3>SF</h3>
                             <a href=""></a>
                         </div>
                     </div>

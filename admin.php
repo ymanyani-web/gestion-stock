@@ -140,6 +140,24 @@ if (!empty($_GET['g'])) {
                     </div>
                 </div>
             </a>
+            <a onclick="document.getElementById('id014').style.display='block'">
+                <div class="col-md-4" onclick="document.getElementById('id014').style.display='block'">
+                    <div class="food-item">
+                        <i class="fas fa-undo"></i>
+                        <h5>Modifier facture</h5>
+                        <a href=""></a>
+                    </div>
+                </div>
+            </a>
+            <a onclick="document.getElementById('id015').style.display='block'">
+                <div class="col-md-4" onclick="document.getElementById('id015').style.display='block'">
+                    <div class="food-item">
+                        <i class="fas fa-times"></i>
+                        <h5>Annulation facture</h5>
+                        <a href=""></a>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 </div>
@@ -257,6 +275,27 @@ if (!empty($_GET['g'])) {
         </div>
     </form>
 </div>
+<div id="id014" class="modal">
+    <form class="modal-content animate" action="views/modifier_facture.php" method="post">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id014').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <label for="nom"> id_facture : </label>
+            <input type="text" name="idf" id="nom">
+            <input type="submit" name="" id="" value="modifier" class="button">
+        </div>
+    </form>
+</div>
+<div id="id015" class="modal">
+    <form class="modal-content animate" action="controller/delete_facture.php" method="post">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id015').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <label for="nom"> numero facture : </label>
+            <input type="text" name="idf" id="nom">
+            <input type="submit" name="" id="" value="Annuler" class="button">
+        </div>
+    </form>
+</div>
+
 
 
 
@@ -279,6 +318,8 @@ if (!empty($_GET['g'])) {
                 echo " <h3>votre fournisseur a ete ajoute avec succes</h3>";
             elseif (isset($_GET['g']) && $_GET['g'] == '4')
                 echo " <h3></h3>";
+            elseif (isset($_GET['g']) && $_GET['g'] == '5')
+                echo " <h3>La facture a ete supprime avec succes</h3>";
             ?>
         </div>
     </form>
@@ -291,6 +332,8 @@ if (!empty($_GET['g'])) {
     var modal11 = document.getElementById('id011');
     var modal12 = document.getElementById('id012');
     var modal13 = document.getElementById('id013');
+    var modal14 = document.getElementById('id014');
+    var modal15 = document.getElementById('id015');
 
     var modal1 = document.getElementById('id01');
     var modal2 = document.getElementById('id02');
@@ -308,6 +351,12 @@ if (!empty($_GET['g'])) {
         }
         if (event.target == modal13) {
             modal13.style.display = "none";
+        }
+        if (event.target == modal14) {
+            modal14.style.display = "none";
+        }
+        if (event.target == modal15) {
+            modal15.style.display = "none";
         }
         if (event.target == modal1) {
             modal1.style.display = "none";

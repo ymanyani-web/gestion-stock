@@ -9,7 +9,6 @@ if (isset($_POST['ref'])) {
     $var3 = !empty($_POST['fournisseur']) ? $_POST['fournisseur'] : '%';
     $var4 = !empty($_POST['type']) ? $_POST['type'] : '%';
     $var5 = !empty($_POST['marque']) ? $_POST['marque'] : '%';
-
     /* $reponse1 = $bdd->query("SELECT * FROM  products WHERE `ref` LIKE '$var1' AND designation LIKE '$var2' "); */
     $reponse1 = $bdd->query("SELECT * FROM  products WHERE `ref` Like '$var1' AND designation like '$var2' AND fournisseurId LIKE '$var3' AND categorie_pieceId LIKE '$var4' AND marque_pieceId Like '$var5' ");
 }
@@ -182,9 +181,11 @@ if (isset($_POST['ref'])) {
                 var idd = $(this).closest('tr').attr('id');
                 document.getElementById("idg1").style.display = "block";
                 $('#sub').click(function() {
-                    var quantite = $('#q').val();
+                  var quantite = $('#q').val();
+                  var nf = $('#nf').val();
+                  var df = $('#df').val();
                     if (quantite >= 1) {
-                        $.get("../controller/stock.php?id=" + idd + "&q=" + quantite, function(data, status) {
+                        $.get("../controller/stock.php?id=" + idd + "&q=" + quantite + "&nf=" + nf + "&df=" + df, function(data, status) {
                             if (status == 'success') {
                                 alert("LE STOCK A ETE MaJ AVEC SUCCES");
                                 $('#q').val(1)
@@ -241,18 +242,14 @@ if (isset($_POST['ref'])) {
     <div id="idg1" class="modal">
         <div class="modal-content animate" action="" method="post">
             <div class="imgcontainer">
-                Quantite <input type="number" id="q" min='1' required> <br> <br>
-                type :
-                <select name="type" id="" required>
-                    <option value="" selected></option>
-                    <option value="entree_stock">Arrivage</option>
-                    <option value="retour">Retour</option>
-                </select> <br> <br>
+                Quantite: <input type="number" id="q" min='1' required> <br> <br>
+                Numero de facture: <input type="text" id="nf" name="num_facture"  required> <br> <br>
+                Date de facture: <input type="date" id="df" name="date_facture" value="<?= date("d/m/y"); ?>"  required><br> <br>
                 <button id="sub" class="button">terminer</button>
             </div>
         </div>
 
-    </div>
+      </div>
     <script>
         var modalg1 = document.getElementById('idg1');
 

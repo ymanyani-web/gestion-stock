@@ -8,7 +8,9 @@ if (isset($_GET['id'])) {
 
 include '../config/database.php';
 $response = $bdd->query('SELECT * FROM `products` WHERE id = ' . $idd . ';');
-$products = [];
+$row = $response->fetch();
+$response1 = $bdd->query('SELECT stock.quantite, stock.numero_facture,stock.date_facture FROM stock WHERE stock.productId='.  $idd .';');
+$response2 = $bdd->query('SELECT * FROM operation WHERE idProduit='.  $idd .';');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -51,43 +53,13 @@ $products = [];
                 <div class="navbar-nav ml-auto">
                     <a href="../index.php" class="nav-item nav-link active">Accueil</a>
                     <a href="../admin.php" class="nav-item nav-link ">Administrateur</a>
-                    <!-- <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu">
-                        <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                        <a href="single.html" class="dropdown-item">Blog Detail</a>
-                    </div>
-                </div> -->
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Nav Bar End -->
-
-
-    <!-- Page Header Start -->
-
-    <!-- Page Header End -->
-
-
-    <!-- Food Start -->
-
-    <!-- Food End -->
-
-
-    <!-- Menu Start -->
-    <?php
-    while ($row = $response->fetch()) {
-    ?>
         <div class="menu">
             <div class="container">
-                <br>
-                <br>
-                <br>
-
                 <div class="menu-tab">
-
                     <div class="tab-content">
                         <div id="burgers" class="container tab-pane active">
                             <div class="row">
@@ -96,33 +68,21 @@ $products = [];
                                         <h1><?php echo $row['designation']; ?></h1>
                                     </div>
                                     <div class="menu-item">
-                                        <div class="menu-img">
-                                            <img src="../img/menu-burger.jpg" alt="Image">
-                                        </div>
                                         <div class="menu-text">
                                             <h3><span>Quantite</span> <strong><?php echo $row['quantite']; ?></strong></h3>
                                         </div>
                                     </div>
                                     <div class="menu-item">
-                                        <div class="menu-img">
-                                            <img src="../img/menu-burger.jpg" alt="Image">
-                                        </div>
                                         <div class="menu-text">
                                             <h3><span>Prix unitaire</span> <strong><?php echo $row['pu']; ?> MAD</strong></h3>
                                         </div>
                                     </div>
                                     <div class="menu-item">
-                                        <div class="menu-img">
-                                            <img src="../img/menu-burger.jpg" alt="Image">
-                                        </div>
                                         <div class="menu-text">
                                             <h3><span>Taux de remise</span> <strong><?php echo $row['taux_remise']; ?>%</strong></h3>
                                         </div>
                                     </div>
                                     <div class="menu-item">
-                                        <div class="menu-img">
-                                            <img src="../img/menu-burger.jpg" alt="Image">
-                                        </div>
                                         <div class="../menu-text">
                                             <h3><span>Description</span></h3>
                                             <p><?php echo $row['description']; ?></p>
@@ -138,11 +98,74 @@ $products = [];
                 </div>
             </div>
         </div>
-    <?php
-    }
-    ?>
     <!-- Menu End -->
+    <div class="mother">
+      <div class="son1">
+        <center>
+        <h2>Historique des arrivage</h2>
+        <table class="taaaable table-bordered">
+          <tr>
+            <td>Numero facture(fournisseur)</td>
+            <td>Date facture</td>
+            <td>Quantite</td>
+          </tr>
+          <?php
+          foreach ($response1 as $r1):
+          ?>
+          <tr class='clickable-row'>
+            <td><?=$r1['numero_facture']?></td>
+            <td><?=$r1['date_facture']?></td>
+            <td><?=$r1['quantite']?></td>
+          </tr>
+        <?php endforeach; ?>
+        </table>
+      </center>
+      </div>
+      <div class="son2">
+        <center>
+        <h2>Historique des ventes</h2>
+        <table class="taaaable table-bordered">
+          <tr>
+            <td>Numero facture(local)</td>
+            <td>Quantite</td>
+            <td>Montant</td>
+          </tr>
+          <?php
+          foreach ($response2 as $r2):
+          ?>
+          <tr class='clickable-row'>
+            <td><?=$r2['numero_facture']?></td>
+            <td><?=$r2['quantite']?></td>
+            <td><?=$r2['montant']?></td>
+          </tr>
+        <?php endforeach; ?>
+        </table>
+      </center>
+      </div>
 
+    </div>
+
+<style>
+.mother {
+  width: 100%;
+  overflow: hidden; /* will contain if #first is longer than #second */
+}
+.mother table{
+  width: 80%;
+  color: black;
+}
+.son1 {
+  width: 50%;
+  float:left; /* add this */
+}
+.son2 {
+  width: 50%;
+  overflow: hidden; /* if you don't want #second to wrap below #first */
+}
+.clickable-row:hover {
+    background-color: #a9dfbf;
+}
+</style>
 
 
 

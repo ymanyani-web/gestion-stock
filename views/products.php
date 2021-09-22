@@ -307,12 +307,7 @@ if (!empty($_GET['g'])) {
                     endforeach;
                     ?>
             </select> <br>
-            <?php /* foreach ($reponse3 as $r3) :
-                $nom = $r3['nom'];
-                $id = $r3['id'];
-                echo "<input type='checkbox' name='marque_vehiculeId[]' value='$id'>$nom <br>";
-            endforeach; */
-            ?><br>
+            <br>
             <label for="casier">Seuil minimum</label>
             <input type="number" name="seuil" id="seuil"> <br>
             <label for="casier">casier</label>
@@ -335,6 +330,10 @@ if (!empty($_GET['g'])) {
             <input type="number" name="pu" id="pu" min="1" required> <br>
             <label for="remise">taux de remise</label>
             <input type="number" name="remise" id="remise" min="0" required>%<br>
+            <label for="AF">AF</label>
+            <input type="radio" name="facturee" value="AF" checked>
+            <label for="SF">SF</label>
+            <input type="radio" name="facturee" value="SF"><br>
             <textarea name="description" id="" cols="30" rows="10"></textarea> <br> <br>
             <center><input type="submit" value="ajouter"></center>
         </div>

@@ -1,0 +1,15 @@
+arrivage ajouter numero de facture - date de facture
+ajouter a porduct-detail
+
+piece sans facture AF || SF
+
+procedure retour d'une piece
+
+inventaire: a chANGER
+
+taux de remise se define automatiquemenet apres definition de prix de vente
+
+
+
+
+change taux remise et total dans cart

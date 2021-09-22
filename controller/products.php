@@ -2,14 +2,6 @@
 include '../config/database.php';
 if (isset($_POST['ref'])) {
     $ref = isset($_POST['ref']) ? trim($_POST['ref']) : "";
-    $db = mysqli_connect('localhost', 'root', 'root', 'gestion');
-    $sql_u = "SELECT * FROM products WHERE ref='$ref'";
-    $res_u = mysqli_query($db, $sql_u);
-    if (mysqli_num_rows($res_u) > 0)
-    {
-     header('Location: ../views/products.php?g=4');
-     exit;
-    }
     $designation = isset($_POST['designation']) ? trim($_POST['designation']) : "";
     $categorie_pieceId = isset($_POST['categorie_pieceId']) ? $_POST['categorie_pieceId'] : "";
     $marque_pieceId = isset($_POST['marque_pieceId']) ? $_POST['marque_pieceId'] : "";
@@ -27,22 +19,70 @@ if (isset($_POST['ref'])) {
     $fournisseurId = isset($_POST['fournisseurId']) ? $_POST['fournisseurId'] : "";
     $pu_fournisseur = isset($_POST['pu_f']) ? $_POST['pu_f'] : "";
 
-    $req = $bdd->prepare('INSERT INTO products(`ref`, `designation`, `categorie_pieceId`, `marque_pieceId`, `marque_vehiculeId`, `image`, `casier`, `fournisseurId`, `pu_fournisseur`, `pu`, `taux_remise`, `description`, `seuil-min`) VALUES(:r, :ds, :ci, :mpi, :mvi, :i, :c, :fi, :pf, :p, :tr, :d, :s)');
-    $req->execute(array(
-        'r' => $ref,
-        'ds' => $designation,
-        'ci' => $categorie_pieceId,
-        'mpi' => $marque_pieceId,
-        'mvi' => $marque_vehiculeId,
-        'i' => $path,
-        'c' => $casier,
-        'fi' => $fournisseurId,
-        'pf' => $pu_fournisseur,
-        'p' => $pu,
-        'tr' => $remise,
-        'd' => $description,
-        's' => $seuil
-    ));
+    if (isset($_POST['facturee']) && $_POST['facturee'] == 'SF') {
+       echo $ref . "<br>";
+      echo $designation . "<br>";
+      echo $categorie_pieceId . "<br>";
+      echo $marque_pieceId . "<br>";
+      echo $marque_vehiculeId . "<br>";
+      echo $path . "<br>";
+      echo $casier . "<br>";
+      echo $fournisseurId . "<br>";
+      echo $pu_fournisseur . "<br>";
+      echo $pu . "<br>";
+      echo $remise . "<br>";
+      echo $description . "<br>";
+      echo $seuil;
+      $db = mysqli_connect('localhost', 'root', 'root', 'gestion');
+      $sql_u = "SELECT * FROM sf WHERE ref='$ref' AND fournisseurId='$fournisseurId'";
+      $res_u = mysqli_query($db, $sql_u);
+      if (mysqli_num_rows($res_u) > 0)
+      {
+       header('Location: ../views/products.php?g=4');
+       exit;
+      }
+      $req = $bdd->prepare('INSERT INTO sf(`ref`, `designation`, `categorie_pieceId`, `marque_pieceId`, `marque_vehiculeId`, `image`, `casier`, `fournisseurId`, `pu_fournisseur`, `pu`, `taux_remise`, `description`, `seuil-min`) VALUES(:r, :ds, :ci, :mpi, :mvi, :i, :c, :fi, :pf, :p, :tr, :d, :s)');
+      $req->execute(array(
+          'r' => $ref,
+          'ds' => $designation,
+          'ci' => $categorie_pieceId,
+          'mpi' => $marque_pieceId,
+          'mvi' => $marque_vehiculeId,
+          'i' => $path,
+          'c' => $casier,
+          'fi' => $fournisseurId,
+          'pf' => $pu_fournisseur,
+          'p' => $pu,
+          'tr' => $remise,
+          'd' => $description,
+          's' => $seuil
+      ));
+    }
+    else {
+      $sql_u = "SELECT * FROM products WHERE ref='$ref' AND fournisseurId='$fournisseurId'";
+      $res_u = mysqli_query($db, $sql_u);
+      if (mysqli_num_rows($res_u) > 0)
+      {
+       header('Location: ../views/products.php?g=4');
+       exit;
+      }
+      $req = $bdd->prepare('INSERT INTO products(`ref`, `designation`, `categorie_pieceId`, `marque_pieceId`, `marque_vehiculeId`, `image`, `casier`, `fournisseurId`, `pu_fournisseur`, `pu`, `taux_remise`, `description`, `seuil-min`) VALUES(:r, :ds, :ci, :mpi, :mvi, :i, :c, :fi, :pf, :p, :tr, :d, :s)');
+      $req->execute(array(
+          'r' => $ref,
+          'ds' => $designation,
+          'ci' => $categorie_pieceId,
+          'mpi' => $marque_pieceId,
+          'mvi' => $marque_vehiculeId,
+          'i' => $path,
+          'c' => $casier,
+          'fi' => $fournisseurId,
+          'pf' => $pu_fournisseur,
+          'p' => $pu,
+          'tr' => $remise,
+          'd' => $description,
+          's' => $seuil
+      ));
+  }
 }
 /* echo $ref . "<br>";
 echo $designation . "<br>";

@@ -29,7 +29,10 @@ foreach ($products as $product) :
     $idd = $product['id'];
     $q = $products_in_cart[$product['id']][0];
     $m = ($product['pu'] * $products_in_cart[$product['id']][0]) - ($product['pu'] * $products_in_cart[$product['id']][0] * $products_in_cart[$product['id']][1] * 0.01);
+    $m = number_format((float)$m, 1, '.', '');
     $total += $m;
+    $total = number_format((float)$total, 1, '.', '');
+
     $client = $_POST['client'] ? $_POST['client'] : '-';
     $seller = $_POST['user'] ? $_POST['user'] : '-';
     echo $m;
@@ -49,7 +52,7 @@ foreach ($products as $product) :
         'qq' => $q
     ));
 ?>
-<?php endforeach; 
+<?php endforeach;
 $mm = $_POST['montant'];
 $req4 = $pdo->prepare('INSERT INTO operation_tt(id_facture, id_client, total) VALUES(:iff, :ic, :t)');
 $req4->execute(array(
@@ -67,4 +70,3 @@ session_destroy();
 header('Location: ../index.php?fn='.$nff.'');
 
 ?>
-
